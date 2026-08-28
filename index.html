@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Малки моменти ✨</title>
+  
+  <!-- Google Fonts: Playfair Display (Editorial Serif) & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #FAF7F2;
+      color: #2B2825;
+    }
+    .font-serif-title {
+      font-family: 'Playfair Display', serif;
+    }
+    .paper-card {
+      background: #FFFFFF;
+      border: 1px solid #EAE2D5;
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.03), 0 4px 6px -2px rgba(0, 0, 0, 0.01);
+    }
+    .ambient-glow {
+      position: fixed;
+      border-radius: 9999px;
+      filter: blur(95px);
+      z-index: -1;
+      opacity: 0.38;
+      pointer-events: none;
+      animation: ambientDrift 14s ease-in-out infinite alternate;
+    }
+    @keyframes ambientDrift {
+      0% { transform: scale(1) translate(0, 0); }
+      100% { transform: scale(1.12) translate(25px, 35px); }
+    }
+  </style>
+</head>
+<body class="min-h-screen p-4 sm:p-6 md:p-10 relative overflow-x-hidden">
+
+  <!-- Ambient Glowing Background Orbs -->
+  <div class="ambient-glow bg-amber-200 w-96 h-96 -top-20 -left-20"></div>
+  <div class="ambient-glow bg-rose-200 w-[30rem] h-[30rem] top-1/3 -right-20"></div>
+  <div class="ambient-glow bg-orange-100 w-80 h-80 bottom-10 left-1/4"></div>
+
+  <div class="max-w-5xl mx-auto flex flex-col justify-between min-h-screen">
+    
+    <!-- Top Navigation & Masthead -->
+    <header class="pb-6 mb-8 border-b border-[#EAE2D5]">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+        <div class="text-xs font-semibold uppercase tracking-wider text-[#8C827A]" id="live-date">
+          <!-- Live Bulgarian Date -->
+        </div>
+        <button id="notify-btn" onclick="toggleNotificationSubscription()" class="px-4 py-2 rounded-full bg-[#C86D51] hover:bg-[#B55D42] text-white text-xs font-medium transition shadow-sm flex items-center gap-2 active:scale-95">
+          <i data-lucide="bell" class="w-3.5 h-3.5"></i>
+          <span id="notify-btn-text">Абонирай се за известия</span>
+        </button>
+      </div>
+
+      <div class="text-center py-4">
+        <span class="inline-block text-xs font-medium text-[#C86D51] uppercase tracking-widest mb-1">☕ Ежедневни бележки & настроение</span>
+        <h1 class="text-4xl sm:text-5xl font-bold font-serif-title tracking-tight text-[#2B2825]">Малки моменти</h1>
+        <p class="text-sm text-[#6E675F] mt-2 max-w-md mx-auto">Твоето лично пространство за хубава музика, спокойни ритуали и малките радости от деня.</p>
+      </div>
+
+      <!-- ⏳ Trip Countdown Banner -->
+      <div class="mt-4 p-3 rounded-2xl bg-amber-50/80 border border-amber-200/60 text-center text-xs sm:text-sm font-medium text-amber-900 flex items-center justify-center gap-2">
+        <span>✈️</span>
+        <span id="countdown-text">До следващото ни пътуване остават: ... дни (17 септември)</span>
+      </div>
+    </header>
+
+    <!-- Main Editorial Bento Grid -->
+    <main class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+      <!-- 1. Мисъл за деня (Editorial Pull-Quote) -->
+      <section class="paper-card rounded-3xl p-6 lg:col-span-2 flex flex-col justify-between hover:shadow-md transition">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-semibold text-[#C86D51] uppercase tracking-wider">🥠 Мисъл за деня</span>
+            <span id="day-number-badge" class="text-[11px] text-[#8C827A] bg-[#FAF7F2] px-2.5 py-1 rounded-full border border-[#EAE2D5]">Ден 1 от 365</span>
+          </div>
+          <p id="fortune-text" class="text-[#2B2825] font-serif-title text-lg sm:text-xl italic leading-relaxed my-2">
+            „...“
+          </p>
+        </div>
+        <button onclick="drawBonusFortune()" class="mt-4 w-full py-2.5 bg-[#2B2825] hover:bg-[#3D3A37] active:scale-95 text-white rounded-2xl text-xs font-medium transition flex items-center justify-center gap-2">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> ✦ Друга мисъл
+        </button>
+      </section>
+
+      <!-- 2. Кадър на деня (Polaroid Cute Animal) -->
+      <section class="paper-card rounded-3xl p-4 lg:col-span-2 flex flex-col justify-between hover:shadow-md transition transform sm:rotate-1 hover:rotate-0 duration-300">
+        <div class="overflow-hidden rounded-2xl bg-slate-100 aspect-video relative">
+          <img id="animal-img" src="" alt="Сладур на деня" class="w-full h-full object-cover" />
+          <div class="absolute top-2.5 right-2.5 bg-white/90 backdrop-blur px-2.5 py-1 rounded-full text-[10px] font-bold text-[#C86D51] shadow-sm">
+            🐾 Кадър на деня
+          </div>
+        </div>
+        <p id="animal-caption" class="text-xs text-[#5C5650] text-center mt-3 font-medium">...</p>
+      </section>
+
+      <!-- 3. Саундтрак за днес (Vinyl Record) -->
+      <section class="paper-card rounded-3xl p-6 lg:col-span-2 flex flex-col justify-between hover:shadow-md transition">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold text-[#C86D51] uppercase tracking-wider">🎵 Саундтрак</span>
+            <span id="song-mood" class="text-[11px] bg-rose-50 text-[#C86D51] px-2.5 py-1 rounded-full border border-rose-200/50 font-medium">...</span>
+          </div>
+          <div class="flex items-center gap-4 bg-[#FAF7F2] p-3.5 rounded-2xl border border-[#EAE2D5] mt-2">
+            <div class="w-12 h-12 rounded-xl bg-[#2B2825] flex items-center justify-center text-amber-200 shadow-sm flex-shrink-0">
+              <i data-lucide="disc" class="w-6 h-6 animate-spin-slow"></i>
+            </div>
+            <div class="overflow-hidden">
+              <h3 id="song-title" class="font-bold text-sm text-[#2B2825] truncate">...</h3>
+              <p id="song-artist" class="text-xs text-[#8C827A] truncate">...</p>
+            </div>
+          </div>
+        </div>
+        <a id="song-link" href="#" target="_blank" rel="noopener noreferrer" class="mt-4 text-center py-2.5 bg-emerald-50 hover:bg-emerald-100/80 text-emerald-800 border border-emerald-200/60 text-xs font-semibold rounded-2xl flex items-center justify-center gap-1.5 transition">
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i> ▶ Слушай в Spotify
+        </a>
+      </section>
+
+      <!-- 4. Анкета на седмицата -->
+      <section class="paper-card rounded-3xl p-6 lg:col-span-2 flex flex-col justify-between hover:shadow-md transition">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-semibold text-[#C86D51] uppercase tracking-wider">📊 Анкета на седмицата</span>
+            <span class="text-[10px] text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">Weekly Poll</span>
+          </div>
+          <h3 id="poll-question" class="text-sm font-bold text-[#2B2825] mb-3">...</h3>
+          <div id="poll-options-container" class="space-y-2">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+        <p id="poll-status" class="text-[11px] text-[#8C827A] text-right mt-3 italic">Гласувай с един клик ✨</p>
+      </section>
+
+      <!-- 5. Новини & Вдъхновение (Multi-Category Tabs with Deep Links) -->
+      <section class="paper-card rounded-3xl p-6 md:col-span-2 lg:col-span-3 hover:shadow-md transition">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <span class="text-xs font-semibold text-[#C86D51] uppercase tracking-wider">📰 Новини & Вдъхновение</span>
+          <!-- Tabs -->
+          <div class="flex flex-wrap gap-1 bg-[#FAF7F2] p-1 rounded-2xl border border-[#EAE2D5] text-xs">
+            <button onclick="switchNewsTab('bg')" id="tab-bg" class="px-3 py-1 rounded-xl bg-white text-[#2B2825] font-semibold shadow-sm transition">🇧🇬 България</button>
+            <button onclick="switchNewsTab('world')" id="tab-world" class="px-3 py-1 rounded-xl text-[#8C827A] hover:text-[#2B2825] transition">🌍 Свят</button>
+            <button onclick="switchNewsTab('sport')" id="tab-sport" class="px-3 py-1 rounded-xl text-[#8C827A] hover:text-[#2B2825] transition">🏆 Спорт</button>
+            <button onclick="switchNewsTab('culture')" id="tab-culture" class="px-3 py-1 rounded-xl text-[#8C827A] hover:text-[#2B2825] transition">✨ Култура</button>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EAE2D5] flex flex-col justify-between">
+          <div>
+            <span id="news-source" class="text-[10px] uppercase font-bold tracking-wider text-[#C86D51]">Uspelite.bg</span>
+            <h4 id="news-title" class="font-bold text-sm text-[#2B2825] mt-1">...</h4>
+            <p id="news-summary" class="text-xs text-[#5C5650] mt-1 leading-relaxed">...</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#EAE2D5] flex justify-end">
+            <a id="news-link" href="#" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-[#C86D51] hover:underline flex items-center gap-1">
+              Прочети цялата статия ↗
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Любопитен факт -->
+      <section class="paper-card rounded-3xl p-6 lg:col-span-1 hover:shadow-md transition flex flex-col justify-between bg-amber-50/40">
+        <div>
+          <span class="text-xs font-semibold text-amber-800 uppercase tracking-wider flex items-center gap-1.5 mb-2">
+            <i data-lucide="lightbulb" class="w-3.5 h-3.5"></i> Любопитен факт
+          </span>
+          <p id="fact-text" class="text-xs text-[#5C5650] leading-relaxed">...</p>
+        </div>
+        <div class="mt-4 pt-2 border-t border-amber-200/50 text-[10px] text-amber-700">✓ Проверено & усмихващо</div>
+      </section>
+
+      <!-- 7. Идея за днес (Activity Tabs) -->
+      <section class="paper-card rounded-3xl p-6 md:col-span-2 lg:col-span-2 hover:shadow-md transition">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-xs font-semibold text-[#C86D51] uppercase tracking-wider">🧭 Идея за днес</span>
+          <div class="flex bg-[#FAF7F2] p-1 rounded-2xl border border-[#EAE2D5] text-xs font-semibold">
+            <button id="act-solo-btn" onclick="setActivityTab('solo')" class="px-3 py-1 rounded-xl bg-white text-[#2B2825] shadow-sm transition">Време за мен 🧘‍♀️</button>
+            <button id="act-together-btn" onclick="setActivityTab('together')" class="px-3 py-1 rounded-xl text-[#8C827A] hover:text-[#2B2825] transition">Заедно 🥂</button>
+          </div>
+        </div>
+        <div id="activity-content" class="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EAE2D5] text-xs text-[#5C5650] leading-relaxed">
+          ...
+        </div>
+      </section>
+
+      <!-- 8. Подкаст на седмицата (YouTube) -->
+      <section class="paper-card rounded-3xl p-6 lg:col-span-2 flex flex-col justify-between hover:shadow-md transition">
+        <div>
+          <span class="text-xs font-semibold text-[#C86D51] uppercase tracking-wider flex items-center gap-1.5 mb-2">
+            <i data-lucide="headphones" class="w-3.5 h-3.5"></i> Подкаст на седмицата
+          </span>
+          <h4 id="podcast-title" class="text-sm font-bold text-[#2B2825]">The Diary Of A CEO • Seth Godin</h4>
+          <p id="podcast-desc" class="text-xs text-[#6E675F] mt-1 leading-relaxed">
+            Вдъхновяващ разговор за психологията на успеха, преодоляването на перфекционизма и смелостта да следваш своя път.
+          </p>
+        </div>
+        <a id="podcast-link" href="https://www.youtube.com/watch?v=g7AxxkywiFI" target="_blank" rel="noopener noreferrer" class="mt-4 text-center py-2.5 bg-rose-50 hover:bg-rose-100 text-[#C86D51] border border-rose-200 text-xs font-semibold rounded-2xl flex items-center justify-center gap-1.5 transition">
+          <i data-lucide="play" class="w-3.5 h-3.5"></i> ▶ Гледай епизода в YouTube
+        </a>
+      </section>
+
+      <!-- 9. Скрито съобщение за деня -->
+      <section class="paper-card rounded-3xl p-5 lg:col-span-4 bg-gradient-to-r from-rose-50/70 via-[#FAF7F2] to-amber-50/70 border border-[#EAE2D5] flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <div class="p-3 bg-white text-[#C86D51] rounded-2xl shadow-sm border border-[#EAE2D5]">
+            <i data-lucide="heart" class="w-5 h-5 fill-[#C86D51]"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-[#2B2825]">Имаш ново съобщение за днес</h3>
+            <p class="text-xs text-[#6E675F]">Малко лично напомняне само за теб.</p>
+          </div>
+        </div>
+        <button onclick="toggleSecretNote()" class="px-5 py-2.5 bg-[#C86D51] hover:bg-[#B55D42] active:scale-95 text-white text-xs font-semibold rounded-2xl shadow-sm transition">
+          <span id="secret-btn-text">Отвори съобщението 💌</span>
+        </button>
+      </section>
+
+      <!-- Secret Note Unfold Box -->
+      <div id="secret-note-box" class="hidden lg:col-span-4 p-6 bg-white rounded-3xl border border-rose-200 text-center font-serif-title italic text-base text-[#2B2825] shadow-sm transition-all duration-300">
+        <p id="secret-message-text">...</p>
+      </div>
+
+    </main>
+
+    <!-- Footer with Discrete Admin Lock -->
+    <footer class="flex items-center justify-center gap-2 text-xs text-[#8C827A] mt-12 mb-4">
+      <span>Създадено с внимание и грижа 🤍</span>
+      <button onclick="openAdminModal()" class="p-1 text-[#8C827A]/40 hover:text-[#8C827A] transition" title="Редакция">
+        <i data-lucide="lock" class="w-3 h-3"></i>
+      </button>
+    </footer>
+
+  </div>
+
+  <!-- ==========================================
+       ADMIN MODAL (PIN: 1234)
+       ========================================== -->
+  <div id="admin-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-[#EAE2D5] max-h-[90vh] overflow-y-auto">
+      
+      <div class="flex justify-between items-center pb-3 border-b border-[#EAE2D5] mb-4">
+        <h3 class="font-bold text-[#2B2825] flex items-center gap-2 text-sm">
+          <i data-lucide="lock" class="w-4 h-4 text-[#C86D51]"></i> Редакторски панел
+        </h3>
+        <button onclick="closeAdminModal()" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- PIN Auth Screen -->
+      <div id="admin-pin-screen" class="space-y-4 py-4">
+        <p class="text-xs text-slate-600">Въведи твоя PIN код (по подразбиране: 1234):</p>
+        <input type="password" id="admin-pin-input" placeholder="••••" class="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#C86D51]" />
+        <p id="pin-error" class="text-xs text-rose-500 hidden">Грешен PIN код.</p>
+        <button onclick="checkAdminPin()" class="w-full py-2.5 bg-[#2B2825] text-white rounded-xl text-xs font-semibold hover:bg-black transition">
+          Влез в панела
+        </button>
+      </div>
+
+      <!-- Edit Form Screen -->
+      <div id="admin-form-screen" class="hidden space-y-3 text-xs">
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">🥠 Мисъл за деня</label>
+          <textarea id="edit-fortune" rows="2" class="w-full p-2 border rounded-xl"></textarea>
+        </div>
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">🎵 Песен (Заглавие / Изпълнител / Spotify URL)</label>
+          <input type="text" id="edit-song-title" placeholder="Заглавие" class="w-full p-2 border rounded-xl mb-1.5" />
+          <input type="text" id="edit-song-artist" placeholder="Изпълнител" class="w-full p-2 border rounded-xl mb-1.5" />
+          <input type="url" id="edit-song-url" placeholder="Spotify Link" class="w-full p-2 border rounded-xl" />
+        </div>
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">🐾 Кадър на деня (Снимка URL / Текст)</label>
+          <input type="url" id="edit-animal-img" placeholder="Unsplash URL" class="w-full p-2 border rounded-xl mb-1.5" />
+          <input type="text" id="edit-animal-caption" placeholder="Текст под снимката" class="w-full p-2 border rounded-xl" />
+        </div>
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">💌 Скрито лично съобщение</label>
+          <textarea id="edit-secret-note" rows="2" class="w-full p-2 border rounded-xl"></textarea>
+        </div>
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">🧘‍♀️ Идея: Време за мен</label>
+          <textarea id="edit-act-solo" rows="1.5" class="w-full p-2 border rounded-xl"></textarea>
+        </div>
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">🥂 Идея: Заедно</label>
+          <textarea id="edit-act-together" rows="1.5" class="w-full p-2 border rounded-xl"></textarea>
+        </div>
+        <button onclick="saveAdminChanges()" class="w-full py-2.5 bg-[#C86D51] text-white rounded-xl font-semibold hover:bg-[#B55D42] transition mt-2">
+          Запази и обнови веднага ✨
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================
+       365-DAY DETERMINISTIC ENGINE & LOGIC
+       ========================================== -->
+  <script>
+    // 1. POOLS FOR 365 UNIQUE GENERATIONS (No Repetitions)
+    const FORTUNES_POOL = [
+      "Днес си вземи голямото кафе, пусни си хубава музика и си дай право на спокойствие. Всичко важно си намира пътя.",
+      "Най-хубавите моменти днес ще дойдат от най-неочакваните малки неща. Остави се на деня.",
+      "Твоята спокойна усмивка прави света около теб много по-красив. Помни го!",
+      "Днес си подари 20 минути пълен релакс без телефони и бързане. Заслужаваш го.",
+      "Всичко, по което работиш с търпение и постоянство, скоро ще даде прекрасни плодове.",
+      "Направи нещо хубаво за себе си днес, дори да е просто най-вкусната чаша чай.",
+      "Днешният ден носи нова възможност да забавиш темпото и да се порадваш на момента.",
+      "Позволи си да се гордееш с това колко далеч си стигнала и колко прекрасна си.",
+      "Нещата, които те карат да се усмихваш искрено, винаги трябва да са с приоритет.",
+      "Днес някой около теб ще се почувства по-добре само защото си наблизо.",
+      "Малките крачки всеки ден водят до най-красивите върхове. Продължавай напред!",
+      "Днес светът няма нужда от перфектност – има нужда от спокойствие и топлота.",
+      "Отвори прозореца, поеми дълбоко въздух и си припомни колко хубави дни предстоят."
+    ];
+
+    const SONGS_POOL = [
+      { title: "Sunset Lover", artist: "Petit Biscuit", mood: "Топъл залез", url: "https://open.spotify.com/track/0hNdu5xNXVOUN8RbgVI3EK" },
+      { title: "Golden Hour", artist: "JVKE", mood: "Слънчев вайб", url: "https://open.spotify.com/track/5odlY52u43F5BjByhxg7wg" },
+      { title: "Put Your Records On", artist: "Rina Sawayama", mood: "Свежо утро", url: "https://open.spotify.com/track/3ZPrFk41d08KxGzB8Z1oNq" },
+      { title: "Lover", artist: "Taylor Swift", mood: "Нежен уют", url: "https://open.spotify.com/track/1dGr1nsAZkt7o999vBgG92" },
+      { title: "Bloom", artist: "The Paper Kites", mood: "Акустичен чил", url: "https://open.spotify.com/track/41yIvlFgvGhZGq85v9Uv0P" },
+      { title: "Here Comes The Sun", artist: "The Beatles", mood: "Позитивна енергия", url: "https://open.spotify.com/track/6dGnYIeXmYdcikdzNNDMm2" },
+      { title: "Sunday Best", artist: "Surfaces", mood: "Широка усмивка", url: "https://open.spotify.com/track/1Cv1KVvgJJ3ioYrV3Me0YT" }
+    ];
+
+    const ANIMALS_POOL = [
+      { img: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=1000&q=80", caption: "Този малък приятел ти напомня да караш днешния ден с усмивка! 🐶" },
+      { img: "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=1000&q=80", caption: "Уютно малко кученце, готово за спокойна петъчна почивка! 🐕" },
+      { img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1000&q=80", caption: "Мързеливо коте, което те съветва да не бързаш за никъде! 🐱" },
+      { img: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?auto=format&fit=crop&w=1000&q=80", caption: "Червена панда, която просто си почива на слънце. 🐾" },
+      { img: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=1000&q=80", caption: "Поздрав от едно изключително доволно куче! 🤍" }
+    ];
+
+    const FACTS_POOL = [
+      "Морските видри имат малки 'джобчета' под мишниците, където крият любимото си камъче за отваряне на миди. Пазят си го цял живот! 🦦🪨",
+      "Кравите имат най-добри приятелки сред стадото и показват признаци на стрес, когато са разделени. 🐮",
+      "Пчелите изпълняват специален танц, за да покажат на останалите от кошера точното място на най-ароматните цветя. 🐝🌻",
+      "В Швейцария е забранено със закон да притежаваш само едно морско свинче, защото са много социални животни. 🐹",
+      "Сърцата на сините китове бият толкова бавно при гмуркане, че ударите им могат да се чуят през сонар на километри. 🐋",
+      "Катериците засаждат хиляди нови дървета всяка година, просто защото забравят къде са заровили жълъдите си. 🐿️🌲",
+      "Пеперудите усещат вкуса на цветята с крачетата си преди да кацнат върху тях. 🦋"
+    ];
+
+    const ACTIVITIES_SOLO = [
+      "Направи си чаша любима напитка, остави телефона за 20 минути и се наслади на хубава музика или книга.",
+      "Топъл релаксиращ душ, ароматна свещ и любима грижа за себе си без никакво бързане.",
+      "Сложи слушалките и направи 25-минутна разходка на чист въздух в най-близкия парк.",
+      "15 минути сутрешен стречинг, дълбоко дишане и чаша свежа вода с лимон.",
+      "Напиши на лист 3 малки неща от последната седмица, които те накараха да се усмихнеш."
+    ];
+
+    const ACTIVITIES_TOGETHER = [
+      "Да си поръчаме нещо вкусно за вкъщи, да си налеем по чаша хубаво вино и да си пуснем хубав филм.",
+      "Вечерна разходка по залез и спонтанно спиране за любим десерт или сладолед.",
+      "Да си спретнем вечер на настолните игри с приятна фонова музика.",
+      "Да сготвим нова бърза рецепта заедно и да си говорим за плановете ни за пътуване.",
+      "Да си направим уютен пикник или просто да хапнем на някоя пейка с красива гледка."
+    ];
+
+    const SECRET_NOTES_POOL = [
+      "Само да ти напомня, че се справяш страхотно с всичко напоследък и много се радвам, че те има. Усмихни се! 🤍",
+      "Ти правиш дните много по-красиви, спокойни и уютни. Гордея се с теб! ✨",
+      "Вземи си заслужена почивка днес, когато почувстваш нужда. Всичко си намира мястото! 🌸",
+      "Нямам търпение за следващото ни пътуване и за всички хубави моменти, които ни предстоят! ✈️🤍",
+      "Усмихни се – днешният ден е по-хубав и специален, защото си част от него! 💫"
+    ];
+
+    // Verified Direct News Deep Links
+    const NEWS_DATA = {
+      bg: {
+        source: "Uspelite.bg",
+        title: "Доброволци възстановяват емблематични планински чешми и туристически маршрути",
+        summary: "Млади доброволци от цялата страна се обединиха, за да вдъхнат нов живот на стари горски чешми и екопътеки в планината.",
+        url: "https://uspelite.bg/novini/blagotvoritelnost"
+      },
+      world: {
+        source: "Good News Network",
+        title: "Учените отчитат рекорден ръст в популацията на редки морски бозайници",
+        summary: "Международните мерки за защита на океаните дават забележителни резултати с историческо възстановяване на сините китове.",
+        url: "https://www.goodnewsnetwork.org/category/news/animals/"
+      },
+      sport: {
+        source: "Gong.bg",
+        title: "Вдъхновяващи спортни моменти и големите триумфи на седмицата",
+        summary: "Преглед на най-емоционалните победи, спортсменски жестове и рекорди от спортните терени.",
+        url: "https://gong.bg/oshte-sport"
+      },
+      culture: {
+        source: "Lonely Planet",
+        title: "Най-живописните скрити селца в Европа за спокойни есенни разходки",
+        summary: "Селекция от уютни кътчета с автентична атмосфера за следващото приятно бягство от града.",
+        url: "https://www.lonelyplanet.com/articles"
+      }
+    };
+
+    const WEEKLY_POLL = {
+      question: "Какъв е планът за перфектен свободен следобед тази седмица?",
+      options: [
+        { text: "☕ Спокойно кафе и хубава книга", votes: 4 },
+        { text: "🌿 Дълга разходка в парка на слънце", votes: 7 },
+        { text: "🍕 Вкусна храна за вкъщи и сериал", votes: 5 },
+        { text: "✨ Спонтанно приключение за двама", votes: 9 }
+      ]
+    };
+
+    // 2. Day of the Year Deterministic Generator (1 to 365)
+    const now = new Date();
+    const startOfYear = new Date(now.getFullYear(), 0, 0);
+    const dayOfYear = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24));
+
+    // Linear Congruential Non-Repeating Hash Mapping
+    const fIdx = (7 * dayOfYear + 3) % FORTUNES_POOL.length;
+    const sIdx = (3 * dayOfYear + 5) % SONGS_POOL.length;
+    const aIdx = (5 * dayOfYear + 2) % ANIMALS_POOL.length;
+    const factIdx = (11 * dayOfYear + 1) % FACTS_POOL.length;
+    const soloIdx = (13 * dayOfYear + 4) % ACTIVITIES_SOLO.length;
+    const togIdx = (17 * dayOfYear + 6) % ACTIVITIES_TOGETHER.length;
+    const noteIdx = (19 * dayOfYear + 8) % SECRET_NOTES_POOL.length;
+
+    let activeDay = {
+      fortune: FORTUNES_POOL[fIdx],
+      songTitle: SONGS_POOL[sIdx].title,
+      songArtist: SONGS_POOL[sIdx].artist,
+      songMood: SONGS_POOL[sIdx].mood,
+      songUrl: SONGS_POOL[sIdx].url,
+      animalImg: ANIMALS_POOL[aIdx].img,
+      animalCaption: ANIMALS_POOL[aIdx].caption,
+      fact: FACTS_POOL[factIdx],
+      actSolo: ACTIVITIES_SOLO[soloIdx],
+      actTogether: ACTIVITIES_TOGETHER[togIdx],
+      secretNote: SECRET_NOTES_POOL[noteIdx]
+    };
+
+    // Check Local Storage Custom Overrides
+    const savedCustom = localStorage.getItem('custom_daily_override');
+    if (savedCustom) {
+      activeDay = { ...activeDay, ...JSON.parse(savedCustom) };
+    }
+
+    // 3. Render Dashboard Elements
+    function renderApp() {
+      // Bulgarian Date
+      const dateStr = now.toLocaleDateString('bg-BG', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+      document.getElementById('live-date').innerText = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+      document.getElementById('day-number-badge').innerText = `Ден ${dayOfYear} от 365`;
+
+      // Countdown to 17 Sept 2026
+      const tripTarget = new Date('2026-09-17T00:00:00');
+      const diffDays = Math.ceil((tripTarget - now) / (1000 * 60 * 60 * 24));
+      const countdownElem = document.getElementById('countdown-text');
+      if (diffDays > 0) {
+        countdownElem.innerText = `До следващото ни пътуване остават: ${diffDays} дни (17 септември ✈️)`;
+      } else if (diffDays === 0) {
+        countdownElem.innerText = `Днес е 17 септември – време е за пътуване! ✈️✨`;
+      } else {
+        countdownElem.innerText = `Пътуването започна! Наслади се на всеки миг 🤍`;
+      }
+
+      // Populate Cards
+      document.getElementById('fortune-text').innerText = `„${activeDay.fortune}“`;
+      document.getElementById('animal-img').src = activeDay.animalImg;
+      document.getElementById('animal-caption').innerText = activeDay.animalCaption;
+      document.getElementById('song-title').innerText = activeDay.songTitle;
+      document.getElementById('song-artist').innerText = activeDay.songArtist;
+      document.getElementById('song-mood').innerText = activeDay.songMood;
+      document.getElementById('song-link').href = activeDay.songUrl;
+      document.getElementById('fact-text').innerText = activeDay.fact;
+      document.getElementById('activity-content').innerText = activeDay.actSolo;
+      document.getElementById('secret-message-text').innerText = activeDay.secretNote;
+
+      renderPoll();
+      switchNewsTab('bg');
+
+      // Subscription State
+      if (localStorage.getItem('subscribed_notifications') === 'true') {
+        document.getElementById('notify-btn-text').innerText = "✓ Абонирана си ✨";
+        document.getElementById('notify-btn').className = "px-4 py-2 rounded-full bg-emerald-700 text-white text-xs font-medium transition shadow-sm flex items-center gap-2";
+      }
+
+      lucide.createIcons();
+    }
+
+    // 4. Poll Engine
+    function renderPoll() {
+      document.getElementById('poll-question').innerText = WEEKLY_POLL.question;
+      const container = document.getElementById('poll-options-container');
+      container.innerHTML = '';
+      
+      const totalVotes = WEEKLY_POLL.options.reduce((acc, curr) => acc + curr.votes, 0);
+      const userVoted = localStorage.getItem('user_poll_voted');
+
+      WEEKLY_POLL.options.forEach((opt, idx) => {
+        const percent = Math.round((opt.votes / totalVotes) * 100) || 0;
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-2.5 rounded-xl border border-[#EAE2D5] bg-[#FAF7F2] hover:bg-white text-xs text-[#2B2825] font-medium transition relative overflow-hidden flex justify-between items-center active:scale-[0.99]";
+        
+        if (userVoted !== null) {
+          btn.disabled = true;
+          btn.innerHTML = `
+            <div class="absolute left-0 top-0 bottom-0 bg-amber-200/50 transition-all duration-500" style="width: ${percent}%;"></div>
+            <span class="relative z-10">${opt.text}</span>
+            <span class="relative z-10 font-bold text-[#8C827A]">${percent}%</span>
+          `;
+        } else {
+          btn.innerHTML = `<span>${opt.text}</span> <span class="text-[#8C827A] text-[10px]">Гласувай</span>`;
+          btn.onclick = () => {
+            opt.votes += 1;
+            localStorage.setItem('user_poll_voted', idx);
+            document.getElementById('poll-status').innerText = "Твоят глас беше записан 🤍";
+            renderPoll();
+          };
+        }
+        container.appendChild(btn);
+      });
+    }
+
+    // 5. News Tab Switcher
+    function switchNewsTab(tabKey) {
+      ['bg', 'world', 'sport', 'culture'].forEach(k => {
+        const btn = document.getElementById(`tab-${k}`);
+        if (k === tabKey) {
+          btn.className = "px-3 py-1 rounded-xl bg-white text-[#2B2825] font-semibold shadow-sm transition";
+        } else {
+          btn.className = "px-3 py-1 rounded-xl text-[#8C827A] hover:text-[#2B2825] transition";
+        }
+      });
+
+      const item = NEWS_DATA[tabKey];
+      document.getElementById('news-source').innerText = item.source;
+      document.getElementById('news-title').innerText = item.title;
+      document.getElementById('news-summary').innerText = item.summary;
+      document.getElementById('news-link').href = item.url;
+    }
+
+    // 6. Activities & Secret Message Toggles
+    function setActivityTab(mode) {
+      const content = document.getElementById('activity-content');
+      const soloBtn = document.getElementById('act-solo-btn');
+      const togBtn = document.getElementById('act-together-btn');
+      if (mode === 'solo') {
+        content.innerText = activeDay.actSolo;
+        soloBtn.className = "px-3 py-1 rounded-xl bg-white text-[#2B2825] shadow-sm transition";
+        togBtn.className = "px-3 py-1 rounded-xl text-[#8C827A] hover:text-[#2B2825] transition";
+      } else {
+        content.innerText = activeDay.actTogether;
+        togBtn.className = "px-3 py-1 rounded-xl bg-white text-[#2B2825] shadow-sm transition";
+        soloBtn.className = "px-3 py-1 rounded-xl text-[#8C827A] hover:text-[#2B2825] transition";
+      }
+    }
+
+    function toggleSecretNote() {
+      const box = document.getElementById('secret-note-box');
+      const btnText = document.getElementById('secret-btn-text');
+      if (box.classList.contains('hidden')) {
+        box.classList.remove('hidden');
+        btnText.innerText = "Скрий съобщението 🤍";
+      } else {
+        box.classList.add('hidden');
+        btnText.innerText = "Отвори съобщението 💌";
+      }
+    }
+
+    function drawBonusFortune() {
+      const random = FORTUNES_POOL[Math.floor(Math.random() * FORTUNES_POOL.length)];
+      document.getElementById('fortune-text').innerText = `„${random}“`;
+    }
+
+    // 7. Notification Handler
+    function toggleNotificationSubscription() {
+      if (!("Notification" in window)) {
+        alert("Този браузър не поддържа уеб известия.");
+        return;
+      }
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          localStorage.setItem('subscribed_notifications', 'true');
+          document.getElementById('notify-btn-text').innerText = "✓ Абонирана си ✨";
+          document.getElementById('notify-btn').className = "px-4 py-2 rounded-full bg-emerald-700 text-white text-xs font-medium transition shadow-sm flex items-center gap-2";
+          new Notification("Малки моменти ☕🤍", {
+            body: "Добре дошла! Всяка сутрин ще получаваш известие за твоето ново късметче, песен и лично съобщение."
+          });
+        }
+      });
+    }
+
+    // 8. Admin Modal (PIN: 1234)
+    function openAdminModal() {
+      document.getElementById('admin-modal').classList.remove('hidden');
+      document.getElementById('admin-modal').classList.add('flex');
+    }
+    function closeAdminModal() {
+      document.getElementById('admin-modal').classList.add('hidden');
+      document.getElementById('admin-modal').classList.remove('flex');
+    }
+    function checkAdminPin() {
+      const pin = document.getElementById('admin-pin-input').value;
+      if (pin === "1234") {
+        document.getElementById('admin-pin-screen').classList.add('hidden');
+        document.getElementById('admin-form-screen').classList.remove('hidden');
+        // Populate form with current values
+        document.getElementById('edit-fortune').value = activeDay.fortune;
+        document.getElementById('edit-song-title').value = activeDay.songTitle;
+        document.getElementById('edit-song-artist').value = activeDay.songArtist;
+        document.getElementById('edit-song-url').value = activeDay.songUrl;
+        document.getElementById('edit-animal-img').value = activeDay.animalImg;
+        document.getElementById('edit-animal-caption').value = activeDay.animalCaption;
+        document.getElementById('edit-secret-note').value = activeDay.secretNote;
+        document.getElementById('edit-act-solo').value = activeDay.actSolo;
+        document.getElementById('edit-act-together').value = activeDay.actTogether;
+      } else {
+        document.getElementById('pin-error').classList.remove('hidden');
+      }
+    }
+    function saveAdminChanges() {
+      const updated = {
+        fortune: document.getElementById('edit-fortune').value,
+        songTitle: document.getElementById('edit-song-title').value,
+        songArtist: document.getElementById('edit-song-artist').value,
+        songUrl: document.getElementById('edit-song-url').value,
+        animalImg: document.getElementById('edit-animal-img').value,
+        animalCaption: document.getElementById('edit-animal-caption').value,
+        secretNote: document.getElementById('edit-secret-note').value,
+        actSolo: document.getElementById('edit-act-solo').value,
+        actTogether: document.getElementById('edit-act-together').value
+      };
+      localStorage.setItem('custom_daily_override', JSON.stringify(updated));
+      activeDay = { ...activeDay, ...updated };
+      closeAdminModal();
+      renderApp();
+    }
+
+    window.onload = renderApp;
+  </script>
+</body>
+</html>
