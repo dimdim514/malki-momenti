@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="bg" id="html-root">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Пътешествия & Места ✨</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.4s ease, color 0.4s ease; }
+    .font-serif-title { font-family: 'Playfair Display', serif; }
+    .light body { background-color: #FAF7F2; color: #2B2825; }
+    .light .paper-card { background: #FFFFFF; border: 1px solid #EAE2D5; box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.03); }
+    .dark body { background-color: #121210; color: #E6E2DC; }
+    .dark .paper-card { background: #1A1916; border: 1px solid #2C2A25; box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5); }
+    .ambient-glow { position: fixed; border-radius: 9999px; filter: blur(100px); z-index: -1; opacity: 0.3; pointer-events: none; animation: ambientDrift 14s ease-in-out infinite alternate; }
+    @keyframes ambientDrift { 0% { transform: scale(1) translate(0, 0); } 100% { transform: scale(1.12) translate(25px, 35px); } }
+  </style>
+</head>
+<body class="min-h-screen p-4 sm:p-6 md:p-10 relative overflow-x-hidden">
+
+  <!-- Ambient Glowing Background Orbs -->
+  <div class="ambient-glow bg-amber-200 dark:bg-[#C86D51] w-96 h-96 -top-20 -left-20 transition-colors duration-700"></div>
+  <div class="ambient-glow bg-rose-200 dark:bg-amber-700 w-[30rem] h-[30rem] top-1/3 -right-20 transition-colors duration-700"></div>
+  <div class="ambient-glow bg-orange-100 dark:bg-emerald-900 w-80 h-80 bottom-10 left-1/4 transition-colors duration-700"></div>
+
+  <div class="max-w-5xl mx-auto flex flex-col justify-between min-h-screen">
+    
+    <header class="pb-6 mb-8 border-b border-[#EAE2D5] dark:border-[#2C2A25]">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        
+        <!-- Главно меню за навигация -->
+        <nav class="flex items-center gap-1.5 bg-white dark:bg-[#1A1916] p-1.5 rounded-full border border-[#EAE2D5] dark:border-[#2C2A25] text-xs font-semibold shadow-sm overflow-x-auto w-full sm:w-auto">
+          <a href="index.html" class="px-4 py-1.5 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#2B2825] dark:hover:text-[#FAF7F2] transition whitespace-nowrap">✦ Начало</a>
+          <a href="news.html" class="px-4 py-1.5 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#2B2825] dark:hover:text-[#FAF7F2] transition whitespace-nowrap">📰 Наука</a>
+          <!-- Активният таб е оцветен -->
+          <a href="travel.html" class="px-4 py-1.5 rounded-full bg-[#C86D51] text-white shadow-sm transition whitespace-nowrap">✈️ Пътешествия</a>
+          <a href="games.html" class="px-4 py-1.5 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#2B2825] dark:hover:text-[#FAF7F2] transition whitespace-nowrap">🎲 Игри</a>
+          <a href="about.html" class="px-4 py-1.5 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#2B2825] dark:hover:text-[#FAF7F2] transition whitespace-nowrap">🤍 За сайта</a>
+        </nav>
+
+        <button onclick="toggleTheme()" class="p-2 rounded-full bg-white dark:bg-[#1A1916] border border-[#EAE2D5] dark:border-[#2C2A25] text-[#2B2825] dark:text-[#E6E2DC] text-xs transition shadow-sm hover:scale-105">
+          <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+          <i data-lucide="moon" class="w-4 h-4 block dark:hidden text-[#C86D51]"></i>
+        </button>
+      </div>
+
+      <div class="text-center py-4">
+        <span class="inline-block text-xs font-medium text-[#C86D51] uppercase tracking-widest mb-1 px-3 py-1 rounded-full bg-[#C86D51]/10 border border-[#C86D51]/20">🗺️ Истории, карти & дестинации</span>
+        <h1 class="text-4xl sm:text-5xl font-bold font-serif-title tracking-tight text-[#2B2825] dark:text-[#FAF7F2]">Пътешествия & Места</h1>
+        <p class="text-sm text-[#6E675F] dark:text-[#9E958B] mt-2 max-w-md mx-auto">Взрив от нови култури, романтични улици, история и невероятни кътчета от България, Европа и света.</p>
+      </div>
+    </header>
+
+    <main class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+
+      <!-- 1. България -->
+      <section class="paper-card rounded-3xl p-6 flex flex-col justify-between hover:-translate-y-1 transition-transform">
+        <div>
+          <div class="overflow-hidden rounded-2xl bg-slate-100 dark:bg-[#121210] aspect-video relative mb-4">
+            <img src="https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=1000&q=80" alt="Пловдив" class="w-full h-full object-cover" />
+            <div class="absolute top-2.5 right-2.5 bg-white/90 dark:bg-[#1A1916]/90 backdrop-blur px-2.5 py-1 rounded-full text-[10px] font-bold text-[#C86D51] shadow-sm border border-[#EAE2D5] dark:border-[#2C2A25]">
+              🇧🇬 България • Пловдив
+            </div>
+          </div>
+          <h3 class="text-lg font-bold font-serif-title text-[#2B2825] dark:text-[#FAF7F2] mb-2">Пловдив — Вечният град под тепетата</h3>
+          <p class="text-xs text-[#6E675F] dark:text-[#9E958B] leading-relaxed mb-3">
+            Един от най-старите непрекъснато обитавани градове в света (на над 8000 години). Съчетава римско наследство (Античния театър), възрожденска архитектура в Стария град и артистичния квартал Капана с неговите уютни кафенета и творчески дух.
+          </p>
+        </div>
+        <div class="pt-3 border-t border-[#EAE2D5] dark:border-[#2C2A25] text-[11px] text-[#C86D51] font-medium flex items-center gap-1.5">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Задължително за посещение по залез слънце от Джумая тепе.
+        </div>
+      </section>
+
+      <!-- 2. Европа -->
+      <section class="paper-card rounded-3xl p-6 flex flex-col justify-between hover:-translate-y-1 transition-transform">
+        <div>
+          <div class="overflow-hidden rounded-2xl bg-slate-100 dark:bg-[#121210] aspect-video relative mb-4">
+            <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1000&q=80" alt="Париж" class="w-full h-full object-cover" />
+            <div class="absolute top-2.5 right-2.5 bg-white/90 dark:bg-[#1A1916]/90 backdrop-blur px-2.5 py-1 rounded-full text-[10px] font-bold text-[#C86D51] shadow-sm border border-[#EAE2D5] dark:border-[#2C2A25]">
+              🇫🇷 Европа • Париж
+            </div>
+          </div>
+          <h3 class="text-lg font-bold font-serif-title text-[#2B2825] dark:text-[#FAF7F2] mb-2">Париж — Градът на светлината и изкуството</h3>
+          <p class="text-xs text-[#6E675F] dark:text-[#9E958B] leading-relaxed mb-3">
+            Столицата на модата, изкуството и романтиката. Създаден първоначално като римско селище Лютеция на река Сена, днес Париж пленява с емблематични булеварди, аромат на прясно изпечени кроасани от малки пекарни и невероятна архитектура.
+          </p>
+        </div>
+        <div class="pt-3 border-t border-[#EAE2D5] dark:border-[#2C2A25] text-[11px] text-[#C86D51] font-medium flex items-center gap-1.5">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Разходка край Сена вечер, когато градът светва в злато.
+        </div>
+      </section>
+
+      <!-- 3. Светът -->
+      <section class="paper-card rounded-3xl p-6 flex flex-col justify-between hover:-translate-y-1 transition-transform">
+        <div>
+          <div class="overflow-hidden rounded-2xl bg-slate-100 dark:bg-[#121210] aspect-video relative mb-4">
+            <img src="https://images.unsplash.com/photo-1514214246283-d427a95c5d2f?auto=format&fit=crop&w=1000&q=80" alt="Киото" class="w-full h-full object-cover" />
+            <div class="absolute top-2.5 right-2.5 bg-white/90 dark:bg-[#1A1916]/90 backdrop-blur px-2.5 py-1 rounded-full text-[10px] font-bold text-[#C86D51] shadow-sm border border-[#EAE2D5] dark:border-[#2C2A25]">
+              🇯🇵 Светът • Киото
+            </div>
+          </div>
+          <h3 class="text-lg font-bold font-serif-title text-[#2B2825] dark:text-[#FAF7F2] mb-2">Киото — Душата на стара Япония</h3>
+          <p class="text-xs text-[#6E675F] dark:text-[#9E958B] leading-relaxed mb-3">
+            Бившата императорска столица на Япония е съкровищница от хиляди класически будистки храмове, спокойни дзен градини, традиционни дървени къщи и бамбукови гори, които сякаш спират времето.
+          </p>
+        </div>
+        <div class="pt-3 border-t border-[#EAE2D5] dark:border-[#2C2A25] text-[11px] text-[#C86D51] font-medium flex items-center gap-1.5">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Магическа разходка в бамбуковата гора Арашияма при изгрев.
+        </div>
+      </section>
+
+      <!-- 4. Мечта за двама -->
+      <section class="paper-card rounded-3xl p-6 flex flex-col justify-between bg-gradient-to-br from-amber-50/50 to-rose-50/50 dark:from-[#1A1916] dark:to-[#25201A] hover:-translate-y-1 transition-transform border border-rose-200/50 dark:border-[#C86D51]/30">
+        <div>
+          <div class="overflow-hidden rounded-2xl bg-slate-100 dark:bg-[#121210] aspect-video relative mb-4">
+            <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1000&q=80" alt="Амалфи" class="w-full h-full object-cover" />
+            <div class="absolute top-2.5 right-2.5 bg-white/90 dark:bg-[#1A1916]/90 backdrop-blur px-2.5 py-1 rounded-full text-[10px] font-bold text-[#C86D51] shadow-sm border border-[#EAE2D5] dark:border-[#2C2A25]">
+              🇮🇹 Италия • Амалфи
+            </div>
+          </div>
+          <h3 class="text-lg font-bold font-serif-title text-[#2B2825] dark:text-[#FAF7F2] mb-2">Амалфи и Позитано — Италианска приказка</h3>
+          <p class="text-xs text-[#6E675F] dark:text-[#9E958B] leading-relaxed mb-3">
+            Живописни къщички, които сякаш се катерят една върху друга по стръмните скали над кристално синьото Тиренско море. Място, изпълнено с аромат на лимонови горички, средземноморско слънце и безкраен романтичен уют.
+          </p>
+        </div>
+        <div class="pt-3 border-t border-amber-200/60 dark:border-[#2C2A25] text-[11px] text-[#C86D51] font-medium flex items-center gap-1.5">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Чаша просеко по залез с изглед към тюркоазения залив. 🥂
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="flex items-center justify-center gap-2 text-xs text-[#8C827A] dark:text-[#9E958B] pb-6">
+      <span>Създадено с внимание, химия и финанси 🤍</span>
+    </footer>
+
+  </div>
+
+  <script>
+    function setTheme(isDark) {
+      const root = document.getElementById('html-root');
+      if (isDark) { root.classList.add('dark'); root.classList.remove('light'); localStorage.setItem('theme', 'dark'); }
+      else { root.classList.remove('dark'); root.classList.add('light'); localStorage.setItem('theme', 'light'); }
+    }
+    function toggleTheme() { setTheme(!document.getElementById('html-root').classList.contains('dark')); }
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) setTheme(true);
+      else setTheme(false);
+    })();
+
+    lucide.createIcons();
+  </script>
+</body>
+</html>
