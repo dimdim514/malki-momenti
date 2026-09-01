@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="bg" id="html-root">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Игри ✨</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.4s ease, color 0.4s ease; }
+    .font-serif-title { font-family: 'Playfair Display', serif; }
+    .light body { background-color: #FAF7F2; color: #2B2825; }
+    .light .paper-card { background: #FFFFFF; border: 1px solid #EAE2D5; box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.03); }
+    .light .sub-box { background: #FAF7F2; border: 1px solid #EAE2D5; }
+    .dark body { background-color: #121210; color: #E6E2DC; }
+    .dark .paper-card { background: #1A1916; border: 1px solid #2C2A25; box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5); }
+    .dark .sub-box { background: #121210; border: 1px solid #2C2A25; }
+    .ambient-glow { position: fixed; border-radius: 9999px; filter: blur(100px); z-index: -1; opacity: 0.3; pointer-events: none; animation: ambientDrift 14s ease-in-out infinite alternate; }
+    @keyframes ambientDrift { 0% { transform: scale(1) translate(0, 0); } 100% { transform: scale(1.12) translate(25px, 35px); } }
+    
+    /* Мемори карти */
+    .memory-card { transition: transform 0.3s, background-color 0.3s; }
+    .memory-card.flipped { background-color: #FAF7F2 !important; border-color: #C86D51; }
+    .dark .memory-card.flipped { background-color: #2C2A25 !important; border-color: #C86D51; }
+    
+    /* Морски шах */
+    .tic-tac-cell { transition: background-color 0.2s; }
+    .tic-tac-cell:hover { background-color: rgba(200, 109, 81, 0.1); }
+
+    /* Лабораторно сортиране (Water Sort) */
+    .flask {
+      width: 44px;
+      height: 140px;
+      border: 3px solid #EAE2D5;
+      border-top: none;
+      border-radius: 0 0 22px 22px;
+      display: flex;
+      flex-direction: column-reverse;
+      overflow: hidden;
+      padding: 2px;
+      gap: 2px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      background: rgba(255,255,255,0.3);
+    }
+    .dark .flask { border-color: #403E39; background: rgba(0,0,0,0.2); }
+    .flask.selected {
+      transform: translateY(-12px);
+      border-color: #C86D51;
+      box-shadow: 0 10px 15px -3px rgba(200, 109, 81, 0.2);
+    }
+    .liquid-segment {
+      width: 100%;
+      height: 25%; 
+      border-radius: 4px;
+      transition: height 0.2s ease-in-out;
+    }
+    .color-A { background-color: #ef4444; } /* Червено */
+    .color-B { background-color: #3b82f6; } /* Синьо */
+    .color-C { background-color: #10b981; } /* Зелено */
+    .color-D { background-color: #f59e0b; } /* Жълто */
+  </style>
+</head>
+<body class="min-h-screen p-4 sm:p-6 md:p-10 relative overflow-x-hidden">
+
+  <div class="ambient-glow bg-amber-200 dark:bg-[#C86D51] w-96 h-96 -top-20 -left-20 transition-colors duration-700"></div>
+  <div class="ambient-glow bg-rose-200 dark:bg-amber-700 w-[30rem] h-[30rem] top-1/3 -right-20 transition-colors duration-700"></div>
+  <div class="ambient-glow bg-orange-100 dark:bg-emerald-900 w-80 h-80 bottom-10 left-1/4 transition-colors duration-700"></div>
+
+  <div class="max-w-5xl mx-auto flex flex-col justify-between min-h-screen">
+    
+    <header class="pb-6 mb-8 border-b border-[#EAE2D5] dark:border-[#2C2A25]">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        
+        <nav class="flex items-center gap-1.5 bg-white dark:bg-[#1A1916] p-1.5 rounded-full border border-[#EAE2D5] dark:border-[#2C2A25] text-xs font-semibold shadow-sm overflow-x-auto w-full sm:w-auto">
+          <a href="index.html" class="px-4 py-1.5 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#2B2825] dark:hover:text-[#FAF7F2] transition whitespace-nowrap">✦ Начало</a>
+          <a href="news.html" class="px-4 py-1.5 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#2B2825] dark:hover:text-[#FAF7F2] transition whitespace-nowrap">📰 Наука</a>
+          <a href="travel.html" class="px-4 py-1.5 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#2B2825] dark:hover:text-[#FAF7F2] transition whitespace-nowrap">✈️ Пътешествия</a>
+          <!-- Активният таб -->
+          <a href="games.html" class="px-4 py-1.5 rounded-full bg-[#C86D51] text-white shadow-sm transition whitespace-nowrap">🎲 Игри</a>
+          <a href="about.html" class="px-4 py-1.5 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#2B2825] dark:hover:text-[#FAF7F2] transition whitespace-nowrap">🤍 За сайта</a>
+        </nav>
+
+        <button onclick="toggleTheme()" class="p-2 rounded-full bg-white dark:bg-[#1A1916] border border-[#EAE2D5] dark:border-[#2C2A25] text-[#2B2825] dark:text-[#E6E2DC] text-xs transition shadow-sm hover:scale-105">
+          <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+          <i data-lucide="moon" class="w-4 h-4 block dark:hidden text-[#C86D51]"></i>
+        </button>
+      </div>
+
+      <div class="text-center py-4">
+        <span class="inline-block text-xs font-medium text-[#C86D51] uppercase tracking-widest mb-1 px-3 py-1 rounded-full bg-[#C86D51]/10 border border-[#C86D51]/20">🎲 Време за почивка</span>
+        <h1 class="text-4xl sm:text-5xl font-bold font-serif-title tracking-tight text-[#2B2825] dark:text-[#FAF7F2]">Малко забавление</h1>
+      </div>
+    </header>
+
+    <main class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+
+      <!-- ИГРА 1: Мемори карти -->
+      <section class="paper-card rounded-3xl p-6 flex flex-col items-center">
+        <div class="text-center mb-4">
+          <h3 class="text-xl font-bold font-serif-title text-[#2B2825] dark:text-[#FAF7F2]">Мемори: Нашият свят</h3>
+          <p class="text-xs text-[#5C5650] dark:text-[#9E958B] mt-1">Намери еднаквите символи, за да тренираш паметта.</p>
+        </div>
+        
+        <div id="memory-board" class="grid grid-cols-4 gap-2 w-full max-w-[280px] mb-4"></div>
+
+        <button onclick="initMemoryGame()" class="px-5 py-2.5 bg-[#C86D51] hover:bg-[#B55D42] text-white text-xs font-semibold rounded-xl shadow-sm transition flex items-center gap-2 mt-auto">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Разбъркай картите
+        </button>
+      </section>
+
+      <!-- ИГРА 2: Лабораторно сортиране -->
+      <section class="paper-card rounded-3xl p-6 flex flex-col items-center border-t-4 border-t-[#C86D51]">
+        <div class="text-center mb-6">
+          <h3 class="text-xl font-bold font-serif-title text-[#2B2825] dark:text-[#FAF7F2]">Лабораторно сортиране</h3>
+          <p class="text-xs text-[#5C5650] dark:text-[#9E958B] mt-1">Прелей разтворите, така че всяка епруветка да е само с един цвят. <br/><span id="ws-level-label" class="font-bold text-[#C86D51]">Ниво 1</span></p>
+        </div>
+        
+        <div id="flasks-container" class="flex flex-wrap justify-center gap-3 mb-6 min-h-[140px]"></div>
+
+        <div class="flex gap-2 w-full max-w-[280px] mt-auto">
+          <button onclick="resetCurrentWsLevel()" class="flex-1 py-2.5 bg-[#EAE2D5] dark:bg-[#2C2A25] text-[#2B2825] dark:text-[#FAF7F2] hover:opacity-80 text-xs font-semibold rounded-xl shadow-sm transition">
+            Рестарт на нивото
+          </button>
+        </div>
+      </section>
+
+      <!-- ИГРА 3: Морски шах -->
+      <section class="paper-card rounded-3xl p-6 flex flex-col items-center border-t-4 border-t-emerald-500">
+        <div class="text-center mb-3 w-full">
+          <h3 class="text-xl font-bold font-serif-title text-[#2B2825] dark:text-[#FAF7F2]">Химия срещу Финанси</h3>
+          
+          <div class="flex justify-center mt-3 mb-2">
+            <div class="flex sub-box p-1 rounded-2xl text-xs font-semibold">
+              <button id="mode-pve" onclick="setTicTacMode('pve')" class="px-3 py-1 rounded-xl bg-white dark:bg-[#1A1916] text-[#2B2825] dark:text-[#FAF7F2] shadow-sm border border-[#EAE2D5] dark:border-[#2C2A25] transition">Срещу Компютъра</button>
+              <button id="mode-pvp" onclick="setTicTacMode('pvp')" class="px-3 py-1 rounded-xl text-[#8C827A] dark:text-[#9E958B] transition">Двете заедно</button>
+            </div>
+          </div>
+          <p class="text-xs text-[#5C5650] dark:text-[#9E958B]">Ред е на: <span id="tic-tac-turn" class="font-bold text-base">⚗️</span></p>
+        </div>
+        
+        <div id="tic-tac-board" class="grid grid-cols-3 gap-2 w-full max-w-[220px] mb-4 bg-[#EAE2D5] dark:bg-[#2C2A25] p-2 rounded-2xl"></div>
+        
+        <p id="tic-tac-status" class="text-sm font-bold text-emerald-600 dark:text-emerald-400 mb-4 h-5"></p>
+
+        <button onclick="initTicTacToe()" class="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold rounded-xl shadow-sm transition flex items-center gap-2 mt-auto">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Започни отначало
+        </button>
+      </section>
+
+      <!-- ИГРА 4: Дешифратор -->
+      <section class="paper-card rounded-3xl p-6 flex flex-col items-center border-t-4 border-t-amber-400">
+        <div class="text-center mb-4 w-full">
+          <h3 class="text-xl font-bold font-serif-title text-[#2B2825] dark:text-[#FAF7F2]">Дешифратор</h3>
+          <p class="text-xs text-[#5C5650] dark:text-[#9E958B] mt-1">Разгадай коя е разбърканата дума.</p>
+        </div>
+        
+        <div class="w-full bg-[#FAF7F2] dark:bg-[#121210] border border-[#EAE2D5] dark:border-[#2C2A25] p-4 rounded-2xl mb-4 text-center">
+          <p class="text-[10px] text-amber-600 uppercase font-bold tracking-wider mb-1">Жокер: <span id="scramble-hint"></span></p>
+          <h2 id="scramble-word" class="text-2xl font-bold tracking-[0.3em] text-[#2B2825] dark:text-white my-2">...</h2>
+        </div>
+
+        <div class="flex w-full max-w-[280px] gap-2 mb-4">
+          <input type="text" id="scramble-input" placeholder="Твоят отговор..." class="w-full px-3 py-2 rounded-xl sub-box border text-sm text-[#2B2825] dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-400 text-center uppercase font-bold">
+        </div>
+
+        <p id="scramble-status" class="text-sm font-bold text-amber-600 mb-4 h-5"></p>
+
+        <div class="flex gap-2 w-full max-w-[280px] mt-auto">
+          <button onclick="checkScramble()" class="flex-1 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold rounded-xl shadow-sm transition">
+            Провери
+          </button>
+          <button onclick="loadNewScramble()" class="px-3 py-2.5 bg-[#EAE2D5] dark:bg-[#2C2A25] text-[#2B2825] dark:text-white hover:opacity-80 text-xs font-semibold rounded-xl transition" title="Следваща дума">
+            <i data-lucide="skip-forward" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="flex items-center justify-center gap-2 text-xs text-[#8C827A] dark:text-[#9E958B] pb-6">
+      <span>Създадено с внимание, химия и финанси 🤍</span>
+    </footer>
+
+  </div>
+
+  <script>
+    function setTheme(isDark) {
+      const root = document.getElementById('html-root');
+      if (isDark) { root.classList.add('dark'); root.classList.remove('light'); localStorage.setItem('theme', 'dark'); }
+      else { root.classList.remove('dark'); root.classList.add('light'); localStorage.setItem('theme', 'light'); }
+    }
+    function toggleTheme() { setTheme(!document.getElementById('html-root').classList.contains('dark')); }
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) setTheme(true);
+      else setTheme(false);
+    })();
+
+    lucide.createIcons();
+
+    // ==========================================
+    // ЛОГИКА: ЛАБОРАТОРНО СОРТИРАНЕ
+    // ==========================================
+    const wsLevelsData = [
+      [ ['color-A', 'color-A', 'color-B', 'color-B'], ['color-B', 'color-B', 'color-A', 'color-A'], [] ],
+      [ ['color-A', 'color-B', 'color-C', 'color-A'], ['color-B', 'color-C', 'color-A', 'color-B'], ['color-C', 'color-A', 'color-B', 'color-C'], [] ],
+      [ ['color-A', 'color-B', 'color-C', 'color-D'], ['color-D', 'color-C', 'color-B', 'color-A'], ['color-A', 'color-B', 'color-C', 'color-D'], ['color-D', 'color-C', 'color-B', 'color-A'], [], [] ]
+    ];
+    let currentLevelIndex = 0;
+    let flasksData = [];
+    let selectedFlaskIndex = null;
+
+    function initWaterSort() {
+      if (currentLevelIndex >= wsLevelsData.length) {
+        alert("Браво! Ти си истински мастър химик! Превъртя всички нива. ⚗️✨");
+        currentLevelIndex = 0;
+      }
+      document.getElementById('ws-level-label').innerText = `Ниво ${currentLevelIndex + 1}`;
+      flasksData = JSON.parse(JSON.stringify(wsLevelsData[currentLevelIndex]));
+      selectedFlaskIndex = null;
+      renderFlasks();
+    }
+    function resetCurrentWsLevel() {
+      selectedFlaskIndex = null;
+      flasksData = JSON.parse(JSON.stringify(wsLevelsData[currentLevelIndex]));
+      renderFlasks();
+    }
+    function renderFlasks() {
+      const container = document.getElementById('flasks-container');
+      container.innerHTML = '';
+      flasksData.forEach((flask, index) => {
+        const flaskDiv = document.createElement('div');
+        flaskDiv.className = `flask ${selectedFlaskIndex === index ? 'selected' : ''}`;
+        flaskDiv.onclick = () => handleFlaskClick(index);
+        flask.forEach(color => {
+          const liquid = document.createElement('div');
+          liquid.className = `liquid-segment ${color}`;
+          flaskDiv.appendChild(liquid);
+        });
+        container.appendChild(flaskDiv);
+      });
+    }
+    function handleFlaskClick(index) {
+      if (selectedFlaskIndex === null) {
+        if (flasksData[index].length > 0) { selectedFlaskIndex = index; renderFlasks(); }
+      } else {
+        if (selectedFlaskIndex === index) {
+          selectedFlaskIndex = null; renderFlasks();
+        } else {
+          const sourceFlask = flasksData[selectedFlaskIndex];
+          const targetFlask = flasksData[index];
+          const sourceTopColor = sourceFlask[sourceFlask.length - 1];
+          const targetTopColor = targetFlask.length > 0 ? targetFlask[targetFlask.length - 1] : null;
+          if (targetFlask.length < 4 && (targetFlask.length === 0 || targetTopColor === sourceTopColor)) {
+            targetFlask.push(sourceFlask.pop());
+            selectedFlaskIndex = null; renderFlasks(); checkWsWin();
+          } else {
+            selectedFlaskIndex = null; renderFlasks();
+          }
+        }
+      }
+    }
+    function checkWsWin() {
+      let hasWon = true;
+      for (let flask of flasksData) {
+        if (flask.length > 0 && flask.length < 4) { hasWon = false; break; }
+        if (flask.length === 4) {
+          const firstColor = flask[0];
+          if (!flask.every(c => c === firstColor)) { hasWon = false; break; }
+        }
+      }
+      if (hasWon) {
+        setTimeout(() => {
+          alert("Браво! Разтворите са перфектно синтезирани! Преминаваш напред.");
+          currentLevelIndex++; initWaterSort();
+        }, 300);
+      }
+    }
+
+    // ==========================================
+    // ЛОГИКА: МЕМОРИ ИГРА
+    // ==========================================
+    const memorySymbols = ['🦦', '☕', '✈️', '🧪', '🪙', '🤍', '🦦', '☕', '✈️', '🧪', '🪙', '🤍'];
+    let hasFlippedCard = false, lockBoard = false, firstCard, secondCard, matches = 0;
+
+    function initMemoryGame() {
+      const board = document.getElementById('memory-board'); board.innerHTML = '';
+      matches = 0; hasFlippedCard = false; lockBoard = false; firstCard = null; secondCard = null;
+      let shuffled = [...memorySymbols].sort(() => 0.5 - Math.random());
+      shuffled.forEach((symbol) => {
+        const card = document.createElement('div');
+        card.classList.add('memory-card', 'w-full', 'aspect-square', 'bg-amber-100', 'dark:bg-amber-900/30', 'rounded-xl', 'border', 'border-amber-200', 'dark:border-amber-800/50', 'flex', 'items-center', 'justify-center', 'text-3xl', 'cursor-pointer', 'shadow-sm');
+        card.dataset.symbol = symbol;
+        card.innerHTML = `<span class="opacity-0 transition-opacity duration-300 pointer-events-none">${symbol}</span>`;
+        card.addEventListener('click', flipCard);
+        board.appendChild(card);
+      });
+    }
+    function flipCard() {
+      if (lockBoard || this === firstCard) return;
+      this.classList.add('flipped'); this.querySelector('span').classList.remove('opacity-0');
+      if (!hasFlippedCard) { hasFlippedCard = true; firstCard = this; return; }
+      secondCard = this; checkForMatch();
+    }
+    function checkForMatch() {
+      if (firstCard.dataset.symbol === secondCard.dataset.symbol) {
+        firstCard.removeEventListener('click', flipCard); secondCard.removeEventListener('click', flipCard);
+        [hasFlippedCard, lockBoard, firstCard, secondCard] = [false, false, null, null];
+        matches++; if(matches === 6) setTimeout(() => alert("Браво! Откри всичките ни символи! 🤍"), 300);
+      } else {
+        lockBoard = true;
+        setTimeout(() => {
+          firstCard.classList.remove('flipped'); firstCard.querySelector('span').classList.add('opacity-0');
+          secondCard.classList.remove('flipped'); secondCard.querySelector('span').classList.add('opacity-0');
+          [hasFlippedCard, lockBoard, firstCard, secondCard] = [false, false, null, null];
+        }, 800);
+      }
+    }
+
+    // ==========================================
+    // ЛОГИКА: МОРСКИ ШАХ
+    // ==========================================
+    let ticTacBoard = ['', '', '', '', '', '', '', '', ''];
+    let currentPlayer = '⚗️'; 
+    let isGameActive = true;
+    let ticTacMode = 'pve'; 
+    const winningConditions = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ];
+
+    function setTicTacMode(mode) {
+      ticTacMode = mode;
+      document.getElementById('mode-pve').className = mode === 'pve' ? 'px-3 py-1 rounded-xl bg-white dark:bg-[#1A1916] text-[#2B2825] dark:text-[#FAF7F2] shadow-sm border border-[#EAE2D5] dark:border-[#2C2A25] transition' : 'px-3 py-1 rounded-xl text-[#8C827A] dark:text-[#9E958B] transition';
+      document.getElementById('mode-pvp').className = mode === 'pvp' ? 'px-3 py-1 rounded-xl bg-white dark:bg-[#1A1916] text-[#2B2825] dark:text-[#FAF7F2] shadow-sm border border-[#EAE2D5] dark:border-[#2C2A25] transition' : 'px-3 py-1 rounded-xl text-[#8C827A] dark:text-[#9E958B] transition';
+      initTicTacToe();
+    }
+    function initTicTacToe() {
+      ticTacBoard = ['', '', '', '', '', '', '', '', ''];
+      currentPlayer = '⚗️'; isGameActive = true;
+      document.getElementById('tic-tac-status').innerText = '';
+      document.getElementById('tic-tac-turn').innerText = currentPlayer;
+      const board = document.getElementById('tic-tac-board'); board.innerHTML = '';
+      for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('tic-tac-cell', 'w-full', 'aspect-square', 'bg-white', 'dark:bg-[#1A1916]', 'rounded-xl', 'flex', 'items-center', 'justify-center', 'text-4xl', 'cursor-pointer', 'shadow-sm');
+        cell.dataset.index = i; cell.addEventListener('click', handleTicTacClick);
+        board.appendChild(cell);
+      }
+    }
+    function handleTicTacClick(e) {
+      const index = e.target.dataset.index;
+      if (ticTacBoard[index] !== '' || !isGameActive) return;
+      if (ticTacMode === 'pve' && currentPlayer === '🪙') return; 
+      makeMove(index, currentPlayer);
+      if (isGameActive && ticTacMode === 'pve' && currentPlayer === '🪙') setTimeout(playAI, 600);
+    }
+    function makeMove(index, player) {
+      ticTacBoard[index] = player;
+      document.querySelector(`.tic-tac-cell[data-index='${index}']`).innerText = player;
+      checkWin();
+    }
+    function playAI() {
+      if (!isGameActive) return;
+      let empty = []; ticTacBoard.forEach((v, i) => { if (v === '') empty.push(i); });
+      if (empty.length > 0) {
+        let choice = empty[Math.floor(Math.random() * empty.length)];
+        if(empty.includes(4) && Math.random() > 0.3) choice = 4; 
+        makeMove(choice, '🪙');
+      }
+    }
+    function checkWin() {
+      let roundWon = false;
+      for (let i = 0; i < winningConditions.length; i++) {
+        const [a, b, c] = winningConditions[i];
+        if (ticTacBoard[a] && ticTacBoard[a] === ticTacBoard[b] && ticTacBoard[a] === ticTacBoard[c]) { roundWon = true; break; }
+      }
+      if (roundWon) {
+        document.getElementById('tic-tac-status').innerText = `Победител: ${currentPlayer === '⚗️' ? 'Химията!' : 'Финансите!'}`;
+        isGameActive = false; return;
+      }
+      if (!ticTacBoard.includes('')) {
+        document.getElementById('tic-tac-status').innerText = 'Равенство! Балансът е запазен.';
+        isGameActive = false; return;
+      }
+      currentPlayer = currentPlayer === '⚗️' ? '🪙' : '⚗️';
+      document.getElementById('tic-tac-turn').innerText = currentPlayer;
+    }
+
+    // ==========================================
+    // ЛОГИКА: ДЕШИФРАТОР
+    // ==========================================
+    const scrambleWords = [
+      { word: "ИНВЕСТИЦИЯ", hint: "Нещо, което правя в нашето бъдеще." },
+      { word: "КАТАЛИЗАТОР", hint: "Твоята усмивка за моето настроение." },
+      { word: "СПОКОЙСТВИЕ", hint: "Това, което ти дава този сайт." },
+      { word: "РЕАКТОР", hint: "Мястото, където се случва магията на химията." },
+      { word: "ПЪТЕШЕСТВИЕ", hint: "Това, което ни очаква през септември." }
+    ];
+    let currentScramble = null;
+
+    function loadNewScramble() {
+      currentScramble = scrambleWords[Math.floor(Math.random() * scrambleWords.length)];
+      let shuffled = currentScramble.word.split('').sort(() => 0.5 - Math.random()).join('');
+      while(shuffled === currentScramble.word) shuffled = currentScramble.word.split('').sort(() => 0.5 - Math.random()).join('');
+      document.getElementById('scramble-word').innerText = shuffled;
+      document.getElementById('scramble-hint').innerText = currentScramble.hint;
+      document.getElementById('scramble-input').value = '';
+      document.getElementById('scramble-status').innerText = '';
+    }
+    function checkScramble() {
+      const input = document.getElementById('scramble-input').value.toUpperCase().trim();
+      const status = document.getElementById('scramble-status');
+      if(input === currentScramble.word) {
+        status.className = "text-sm font-bold text-emerald-500 mb-4 h-5";
+        status.innerText = "Точно така! Браво! ✨";
+        setTimeout(loadNewScramble, 2000);
+      } else {
+        status.className = "text-sm font-bold text-rose-500 mb-4 h-5";
+        status.innerText = "Опитай пак!";
+      }
+    }
+
+    window.onload = () => { initMemoryGame(); initWaterSort(); initTicTacToe(); loadNewScramble(); };
+  </script>
+</body>
+</html>
