@@ -5,254 +5,284 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Малки моменти ✨</title>
   
+  <!-- Иконка за таба -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
   
+  <!-- Шрифтове -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
+  <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  
   <script>tailwind.config = { darkMode: 'class' }</script>
   
   <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.5s ease, color 0.5s ease; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.4s ease, color 0.4s ease; }
     .font-serif-title { font-family: 'Playfair Display', serif; }
     
-    /* Light Theme - Latte Aesthetic */
+    /* Светла тема */
     .light body { background-color: #F8F5F1; color: #3A3532; }
     .light .glass-card { 
-      background: rgba(255, 255, 255, 0.75); 
-      backdrop-filter: blur(16px); 
-      border: 1px solid rgba(235, 225, 215, 0.8); 
-      box-shadow: 0 20px 40px -15px rgba(100, 90, 80, 0.06); 
+      background: rgba(255, 255, 255, 0.85); 
+      backdrop-filter: blur(20px); 
+      border: 1px solid rgba(235, 225, 215, 0.9); 
+      box-shadow: 0 15px 35px -10px rgba(100, 90, 80, 0.08); 
     }
-    .light .sub-box { background: #F2ECE4; border: 1px solid rgba(225, 215, 205, 0.6); }
+    .light .sub-box { background: #EAE2D5; border: 1px solid rgba(225, 215, 205, 0.8); }
     
-    /* Dark Theme - Espresso Aesthetic */
+    /* Тъмна тема */
     .dark body { background-color: #1A1715; color: #E8E3DE; }
     .dark .glass-card { 
-      background: rgba(40, 36, 33, 0.75); 
-      backdrop-filter: blur(16px); 
-      border: 1px solid rgba(70, 64, 58, 0.4); 
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7); 
+      background: rgba(40, 36, 33, 0.85); 
+      backdrop-filter: blur(20px); 
+      border: 1px solid rgba(70, 64, 58, 0.6); 
+      box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5); 
     }
-    .dark .sub-box { background: #25211E; border: 1px solid rgba(70, 64, 58, 0.3); }
+    .dark .sub-box { background: #2A2522; border: 1px solid rgba(70, 64, 58, 0.5); }
 
-    .glass-card { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s; }
+    .glass-card { transition: transform 0.3s ease, border-color 0.3s ease; }
     .glass-card:hover { transform: translateY(-3px); border-color: #C86D51; }
 
-    /* Polaroid Image Effect */
+    /* Полароид ефект за снимката */
     .polaroid {
       background: white;
-      padding: 12px 12px 28px 12px;
-      box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.12);
-      border-radius: 16px;
-      transform: rotate(1.5deg);
-      transition: transform 0.4s ease;
+      padding: 12px 12px 30px 12px;
+      box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.15);
+      border-radius: 12px;
+      transform: rotate(2deg);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
-    .dark .polaroid { background: #26221F; box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.6); }
-    .polaroid:hover { transform: rotate(0deg) scale(1.01); }
+    .dark .polaroid { background: #26221F; box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.7); }
+    .polaroid:hover { transform: rotate(0deg) scale(1.02); box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2); }
 
-    .ambient-glow { position: fixed; border-radius: 9999px; filter: blur(120px); z-index: -1; opacity: 0.25; pointer-events: none; animation: ambientDrift 16s ease-in-out infinite alternate; }
-    @keyframes ambientDrift { 0% { transform: scale(1) translate(0, 0); } 100% { transform: scale(1.15) translate(30px, -40px); } }
+    /* Меки светещи фонове */
+    .ambient-glow { position: fixed; border-radius: 9999px; filter: blur(140px); z-index: -1; opacity: 0.3; pointer-events: none; animation: ambientDrift 15s ease-in-out infinite alternate; }
+    @keyframes ambientDrift { 0% { transform: scale(1) translate(0, 0); } 100% { transform: scale(1.1) translate(20px, -30px); } }
   </style>
 </head>
 <body class="min-h-screen p-4 sm:p-6 md:p-8 relative overflow-x-hidden">
 
-  <div class="ambient-glow bg-[#C86D51] w-[25rem] h-[25rem] top-[-10%] left-[-10%] transition-colors duration-700"></div>
-  <div class="ambient-glow bg-rose-200 dark:bg-[#7A5C48] w-[35rem] h-[35rem] top-[30%] right-[-15%] transition-colors duration-700"></div>
-  <div class="ambient-glow bg-emerald-100 dark:bg-[#3A4D3E] w-[20rem] h-[20rem] bottom-[5%] left-[20%] transition-colors duration-700"></div>
+  <!-- Светещ фон -->
+  <div class="ambient-glow bg-[#D48C70] w-[30rem] h-[30rem] top-[-15%] left-[-15%] transition-colors duration-700"></div>
+  <div class="ambient-glow bg-[#EAE2D5] dark:bg-[#7A5C48] w-[40rem] h-[40rem] top-[20%] right-[-20%] transition-colors duration-700"></div>
+  <div class="ambient-glow bg-[#A5C2B4] dark:bg-[#3A4D3E] w-[25rem] h-[25rem] bottom-[-10%] left-[10%] transition-colors duration-700"></div>
 
   <div class="max-w-5xl mx-auto flex flex-col justify-between min-h-screen">
     
-    <header class="pb-8 mb-8 border-b border-[#EAE2D5] dark:border-[#3A3532] transition-colors">
-      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+    <!-- HEADER -->
+    <header class="pb-8 mb-8 border-b border-[#EAE2D5] dark:border-[#3A3532]">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-5 mb-8">
         
         <!-- Главно меню -->
-        <nav class="flex items-center gap-1.5 glass-card p-1.5 rounded-full text-[13px] font-semibold overflow-x-auto w-full sm:w-auto">
-          <a href="index.html" class="px-5 py-2 rounded-full bg-[#C86D51] text-white shadow-sm transition whitespace-nowrap">✦ Начало</a>
-          <a href="news.html" class="px-5 py-2 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#3A3532] dark:hover:text-[#FAF7F2] transition whitespace-nowrap">📰 Наука</a>
-          <a href="travel.html" class="px-5 py-2 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#3A3532] dark:hover:text-[#FAF7F2] transition whitespace-nowrap">✈️ Пътешествия</a>
-          <a href="games.html" class="px-5 py-2 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#3A3532] dark:hover:text-[#FAF7F2] transition whitespace-nowrap">🎲 Игри</a>
-          <a href="about.html" class="px-5 py-2 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#3A3532] dark:hover:text-[#FAF7F2] transition whitespace-nowrap">🤍 За сайта</a>
+        <nav class="flex items-center gap-1.5 glass-card p-2 rounded-full text-xs sm:text-[13px] font-semibold overflow-x-auto w-full sm:w-auto shadow-sm">
+          <a href="index.html" class="px-5 py-2.5 rounded-full bg-[#C86D51] text-white shadow-md transition whitespace-nowrap">✦ Начало</a>
+          <a href="news.html" class="px-5 py-2.5 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#3A3532] dark:hover:text-white transition whitespace-nowrap">📰 Наука</a>
+          <a href="travel.html" class="px-5 py-2.5 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#3A3532] dark:hover:text-white transition whitespace-nowrap">✈️ Пътешествия</a>
+          <a href="games.html" class="px-5 py-2.5 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#3A3532] dark:hover:text-white transition whitespace-nowrap">🎲 Игри</a>
+          <a href="about.html" class="px-5 py-2.5 rounded-full text-[#8C827A] dark:text-[#9E958B] hover:text-[#3A3532] dark:hover:text-white transition whitespace-nowrap">🤍 За сайта</a>
         </nav>
         
-        <!-- Дясна група бутони (Тема и Известия) -->
-        <div class="flex items-center gap-2.5 w-full sm:w-auto justify-end">
-          <button onclick="toggleTheme()" class="p-2.5 rounded-full glass-card text-[#3A3532] dark:text-[#E8E3DE] transition shadow-sm hover:scale-105 active:scale-95" title="Превключи режим">
-            <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-300"></i>
-            <i data-lucide="moon" class="w-4 h-4 block dark:hidden text-[#C86D51]"></i>
+        <!-- Бутони вдясно -->
+        <div class="flex items-center gap-3 w-full sm:w-auto justify-center">
+          <button onclick="toggleTheme()" id="theme-btn" class="w-11 h-11 flex items-center justify-center rounded-full glass-card text-[#3A3532] dark:text-[#E8E3DE] transition shadow-sm hover:scale-105 active:scale-95" title="Смени темата">
+            <!-- Иконата се зарежда директно от JS, за да няма бели кръгчета -->
+            <i id="theme-icon" data-lucide="moon" class="w-5 h-5"></i>
           </button>
           
-          <button id="notify-btn" onclick="toggleNotificationSubscription()" class="px-4 py-2.5 rounded-2xl bg-[#C86D51] hover:bg-[#B55D42] text-white text-xs font-bold transition shadow-sm flex items-center gap-2 active:scale-95 whitespace-nowrap">
-            <i data-lucide="bell" class="w-3.5 h-3.5"></i> 
+          <button id="notify-btn" onclick="toggleNotificationSubscription()" class="px-5 py-3 rounded-full bg-[#C86D51] hover:bg-[#B55D42] text-white text-xs font-bold uppercase tracking-wider transition shadow-md flex items-center gap-2 active:scale-95">
+            <i data-lucide="bell" class="w-4 h-4"></i> 
             <span id="notify-btn-text">Абонирай се</span>
           </button>
         </div>
       </div>
 
-      <div class="text-center py-6">
-        <span class="inline-block text-[11px] font-bold text-[#C86D51] uppercase tracking-[0.2em] mb-3 px-4 py-1.5 rounded-full bg-[#C86D51]/10 border border-[#C86D51]/20">☕ Спокойни моменти & Уют</span>
-        <h1 class="text-5xl sm:text-6xl font-bold font-serif-title tracking-tight text-[#3A3532] dark:text-[#F8F5F1] mb-4">Малки моменти</h1>
-        <div class="inline-flex p-3 px-6 rounded-2xl glass-card text-xs sm:text-sm font-medium text-[#7C726A] dark:text-[#D4C5B9] items-center gap-2.5 shadow-sm">
-          <span>✈️</span> 
-          <span id="countdown-text">Зареждане на брояча...</span>
+      <div class="text-center pt-4">
+        <span class="inline-block text-[10px] sm:text-xs font-bold text-[#C86D51] uppercase tracking-[0.2em] mb-4 px-4 py-1.5 rounded-full bg-[#C86D51]/10 border border-[#C86D51]/20">Спокойни моменти & Уют</span>
+        <h1 class="text-5xl sm:text-7xl font-bold font-serif-title tracking-tight text-[#3A3532] dark:text-[#F8F5F1] mb-6">Малки моменти</h1>
+        <div class="inline-flex py-3 px-6 rounded-2xl glass-card text-xs sm:text-sm font-semibold text-[#6C655F] dark:text-[#D4C5B9] items-center gap-3 shadow-sm border border-[#EAE2D5] dark:border-[#46403A]">
+          <span class="text-lg">✈️</span> 
+          <span id="countdown-text">Пресмятане на дните...</span>
         </div>
       </div>
     </header>
 
+    <!-- ОСНОВНА МРЕЖА С КАРТИ -->
     <main class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
 
       <!-- Катализатор (Късметче) -->
-      <section class="glass-card rounded-[2.5rem] p-8 lg:col-span-2 flex flex-col justify-between relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-[#C86D51]/10 rounded-full blur-3xl"></div>
-        <div>
+      <section class="glass-card rounded-[2rem] p-8 lg:col-span-2 flex flex-col justify-center relative overflow-hidden">
+        <div class="absolute top-[-20%] right-[-10%] w-40 h-40 bg-[#C86D51]/15 rounded-full blur-3xl"></div>
+        <div class="relative z-10">
           <div class="flex items-center justify-between mb-6">
-            <span class="text-xs font-bold text-[#C86D51] uppercase tracking-widest flex items-center gap-2"><i data-lucide="flask-conical" class="w-4 h-4"></i> Катализатор на деня</span>
-            <span id="day-number-badge" class="text-[11px] font-bold text-[#8C827A] dark:text-[#9E958B] sub-box px-3 py-1 rounded-full">Ден ...</span>
+            <span class="text-xs font-bold text-[#C86D51] uppercase tracking-widest flex items-center gap-2">
+              <i data-lucide="flask-conical" class="w-4 h-4"></i> Катализатор на деня
+            </span>
+            <span id="day-number-badge" class="text-[11px] font-bold text-[#8C827A] dark:text-[#A89F95] sub-box px-4 py-1.5 rounded-full shadow-inner">Ден ...</span>
           </div>
-          <p id="fortune-text" class="text-[#3A3532] dark:text-[#F8F5F1] font-serif-title italic text-xl sm:text-2xl leading-relaxed my-2">
-            „Зареждане...“
+          <p id="fortune-text" class="text-[#3A3532] dark:text-[#F8F5F1] font-serif-title italic text-2xl sm:text-3xl leading-snug my-2">
+            „Зареждане на днешния момент...“
           </p>
         </div>
       </section>
 
       <!-- Полароид Снимка -->
       <section class="lg:col-span-2 flex flex-col items-center justify-center p-2">
-        <div class="polaroid w-full max-w-sm relative">
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-3.5 bg-amber-200/60 backdrop-blur-md shadow-sm transform -rotate-2 z-10 rounded-sm"></div>
-          <img id="animal-img" src="https://images.unsplash.com/photo-1518467166778-b88f373ffec7?auto=format&fit=crop&w=1000&q=80" alt="Видрички" class="w-full aspect-[4/3] object-cover rounded-lg" />
-          <p id="animal-caption" class="text-xs text-[#6C655F] dark:text-[#A89F95] text-center mt-3 mb-1 font-medium font-serif-title italic">Малки видрички за разкош 🦦</p>
+        <div class="polaroid w-full max-w-[320px] relative">
+          <!-- Тиксото отгоре -->
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-4 bg-amber-100/70 dark:bg-[#C86D51]/50 backdrop-blur-sm shadow-sm transform -rotate-3 z-10 rounded-sm"></div>
+          <img id="animal-img" src="https://images.unsplash.com/photo-1518467166778-b88f373ffec7?auto=format&fit=crop&w=1000&q=80" alt="Снимка" class="w-full aspect-[4/3] object-cover rounded-md" />
+          <p id="animal-caption" class="text-sm text-[#5C5650] dark:text-[#9E958B] text-center mt-4 mb-2 font-medium font-serif-title italic leading-tight">Малки видрички за разкош 🦦</p>
         </div>
       </section>
 
       <!-- Музика (Spotify) -->
-      <section class="glass-card rounded-[2.5rem] p-8 lg:col-span-2 flex flex-col justify-between">
+      <section class="glass-card rounded-[2rem] p-8 lg:col-span-2 flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between mb-4">
             <span class="text-xs font-bold text-[#C86D51] uppercase tracking-widest">🎵 Резонансна честота</span>
-            <span id="song-mood" class="text-[10px] font-bold uppercase tracking-wider bg-rose-50/50 dark:bg-[#C86D51]/10 text-[#C86D51] px-3 py-1 rounded-full border border-rose-200/50 dark:border-[#C86D51]/20">...</span>
+            <span id="song-mood" class="text-[10px] font-bold uppercase tracking-wider bg-rose-50 dark:bg-[#46403A] text-[#C86D51] px-3 py-1 rounded-full border border-rose-200 dark:border-[#5C5650]">...</span>
           </div>
-          <div class="sub-box p-4 rounded-3xl mt-4 flex items-center gap-5">
-            <div class="w-14 h-14 rounded-2xl bg-[#3A3532] dark:bg-[#1A1715] flex items-center justify-center text-amber-200 dark:text-[#C86D51] shadow-inner flex-shrink-0">
+          <div class="sub-box p-4 rounded-2xl mt-5 flex items-center gap-5 shadow-sm">
+            <div class="w-14 h-14 rounded-xl bg-[#282421] dark:bg-[#12100E] flex items-center justify-center text-[#C86D51] shadow-inner flex-shrink-0">
               <i data-lucide="disc" class="w-7 h-7 animate-spin-slow"></i>
             </div>
             <div class="overflow-hidden">
-              <h3 id="song-title" class="font-bold text-sm text-[#3A3532] dark:text-[#F8F5F1] truncate mb-1">...</h3>
-              <p id="song-artist" class="text-xs text-[#8C827A] dark:text-[#9E958B] truncate font-medium">...</p>
+              <h3 id="song-title" class="font-bold text-base text-[#3A3532] dark:text-[#F8F5F1] truncate mb-1">...</h3>
+              <p id="song-artist" class="text-xs text-[#8C827A] dark:text-[#A89F95] truncate font-medium">...</p>
             </div>
           </div>
         </div>
-        <a id="song-link" href="#" target="_blank" class="mt-6 text-center py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-800 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider rounded-2xl flex items-center justify-center gap-2 transition border border-emerald-500/20">
+        <a id="song-link" href="#" target="_blank" class="mt-6 text-center py-4 bg-[#4A5D4E]/10 hover:bg-[#4A5D4E]/20 text-[#4A5D4E] dark:text-[#9EA590] text-xs font-bold uppercase tracking-widest rounded-2xl flex items-center justify-center gap-2 transition duration-300">
           <i data-lucide="play-circle" class="w-4 h-4"></i> Слушай в Spotify
         </a>
       </section>
 
       <!-- Процесен Факт -->
-      <section class="glass-card rounded-[2.5rem] p-8 lg:col-span-2 flex flex-col justify-between relative overflow-hidden border-l-4 border-l-[#4A5D4E]">
-        <div>
-          <div class="flex items-center justify-between mb-4">
+      <section class="glass-card rounded-[2rem] p-8 lg:col-span-2 flex flex-col justify-between relative overflow-hidden border-l-[6px] border-l-[#4A5D4E] dark:border-l-[#6A7D6E]">
+        <div class="pl-2">
+          <div class="flex items-center justify-between mb-5">
             <span class="text-xs font-bold text-[#4A5D4E] dark:text-[#9EA590] uppercase tracking-widest flex items-center gap-2">
-              <i data-lucide="lightbulb" class="w-4 h-4"></i> Процесен Факт
+              <i data-lucide="microscope" class="w-4 h-4"></i> Любопитен Факт
             </span>
           </div>
-          <p id="fact-text" class="text-xs sm:text-sm text-[#5C5650] dark:text-[#E8E3DE] leading-relaxed">...</p>
+          <h3 class="text-xl font-bold font-serif-title text-[#3A3532] dark:text-[#F8F5F1] mb-3">Знаеше ли, че...</h3>
+          <p id="fact-text" class="text-sm text-[#5C5650] dark:text-[#E8E3DE] leading-relaxed font-medium">...</p>
         </div>
       </section>
 
       <!-- Рецепта за деня (Solo/Together) -->
-      <section class="glass-card rounded-[2.5rem] p-8 lg:col-span-2">
-        <div class="flex items-center justify-between mb-6">
-          <span class="text-xs font-bold text-[#C86D51] uppercase tracking-widest">🧭 Рецепта за деня</span>
-          <div class="flex sub-box p-1.5 rounded-2xl text-xs font-semibold gap-1">
-            <button id="act-solo-btn" onclick="setActivityTab('solo')" class="px-4 py-1.5 rounded-xl bg-white dark:bg-[#1A1715] text-[#3A3532] dark:text-[#F8F5F1] shadow-sm transition font-bold">Време за мен</button>
-            <button id="act-together-btn" onclick="setActivityTab('together')" class="px-4 py-1.5 rounded-xl text-[#8C827A] dark:text-[#9E958B] transition font-medium">Заедно</button>
+      <section class="glass-card rounded-[2rem] p-8 lg:col-span-2">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <span class="text-xs font-bold text-[#C86D51] uppercase tracking-widest">🧭 Идея за деня</span>
+          
+          <!-- ОПРАВЕНИ БУТОНИ ЗА КОНТРАСТ -->
+          <div class="flex bg-[#EAE2D5] dark:bg-[#3A3532] p-1.5 rounded-2xl text-xs font-semibold gap-1 shadow-inner">
+            <button id="act-solo-btn" onclick="setActivityTab('solo')" class="px-5 py-2 rounded-xl bg-white dark:bg-[#1A1715] text-[#3A3532] dark:text-[#F8F5F1] shadow-md transition duration-300 font-bold">Време за мен</button>
+            <button id="act-together-btn" onclick="setActivityTab('together')" class="px-5 py-2 rounded-xl text-[#6C655F] dark:text-[#A89F95] transition duration-300 font-medium hover:text-[#3A3532] dark:hover:text-white">Заедно</button>
           </div>
         </div>
-        <div id="activity-content" class="sub-box p-5 rounded-3xl text-xs sm:text-sm text-[#5C5650] dark:text-[#E8E3DE] leading-relaxed font-medium">...</div>
+        <div id="activity-content" class="sub-box p-6 rounded-3xl text-sm text-[#4A4541] dark:text-[#E8E3DE] leading-relaxed font-medium shadow-sm">...</div>
       </section>
 
       <!-- Скрито Съобщение -->
-      <section class="glass-card rounded-[2.5rem] p-6 lg:col-span-4 border border-[#C86D51]/30 flex flex-col sm:flex-row items-center justify-between gap-5 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-r from-rose-50/40 via-transparent to-amber-50/40 dark:from-[#C86D51]/10 dark:to-transparent opacity-50"></div>
+      <section class="glass-card rounded-[2rem] p-6 lg:col-span-4 border border-[#C86D51]/30 flex flex-col sm:flex-row items-center justify-between gap-5 relative overflow-hidden group">
+        <div class="absolute inset-0 bg-gradient-to-r from-rose-50/60 via-transparent to-[#C86D51]/10 dark:from-[#C86D51]/20 dark:to-transparent opacity-60"></div>
         <div class="flex items-center gap-5 relative z-10 w-full sm:w-auto">
-          <div class="w-14 h-14 bg-white dark:bg-[#1A1715] rounded-full flex items-center justify-center shadow-sm border border-[#EAE2D5] dark:border-[#3A3532] flex-shrink-0">
-            <i data-lucide="heart" class="w-6 h-6 text-[#C86D51] fill-[#C86D51]"></i>
+          <div class="w-16 h-16 bg-white dark:bg-[#1A1715] rounded-full flex items-center justify-center shadow-md border border-[#EAE2D5] dark:border-[#3A3532] flex-shrink-0 group-hover:scale-105 transition-transform duration-500">
+            <i data-lucide="heart" class="w-7 h-7 text-[#C86D51] fill-[#C86D51]"></i>
           </div>
           <div>
-            <h3 class="text-base font-bold font-serif-title text-[#3A3532] dark:text-[#F8F5F1]">Имаш ново лично съобщение</h3>
-            <p class="text-xs text-[#8C827A] dark:text-[#9E958B] mt-1 font-medium tracking-wide">Калкулирано специално за теб 🤍</p>
+            <h3 class="text-lg font-bold font-serif-title text-[#3A3532] dark:text-[#F8F5F1]">Имаш ново лично съобщение</h3>
+            <p class="text-xs text-[#8C827A] dark:text-[#A89F95] mt-1 font-semibold tracking-wider uppercase">Специално за теб 🤍</p>
           </div>
         </div>
-        <button onclick="toggleSecretNote()" class="w-full sm:w-auto px-6 py-3.5 bg-[#C86D51] hover:bg-[#B55D42] text-white text-xs font-bold uppercase tracking-wider rounded-2xl transition relative z-10 shadow-md">
-          <span id="secret-btn-text">Отвори съобщението 💌</span>
+        <button onclick="toggleSecretNote()" class="w-full sm:w-auto px-8 py-4 bg-[#C86D51] hover:bg-[#B55D42] text-white text-xs font-bold uppercase tracking-widest rounded-2xl transition duration-300 relative z-10 shadow-lg hover:shadow-xl">
+          <span id="secret-btn-text">Отвори 💌</span>
         </button>
       </section>
 
       <!-- Скритото съдържание -->
-      <div id="secret-note-box" class="hidden lg:col-span-4 p-8 glass-card rounded-[2.5rem] border border-[#C86D51]/40 text-center font-serif-title italic text-2xl text-[#3A3532] dark:text-[#F8F5F1] shadow-xl">
-        <p id="secret-message-text">...</p>
+      <div id="secret-note-box" class="hidden lg:col-span-4 p-10 glass-card rounded-[2rem] border border-[#C86D51]/40 text-center font-serif-title italic text-2xl sm:text-3xl text-[#3A3532] dark:text-[#F8F5F1] shadow-2xl">
+        <p id="secret-message-text" class="leading-relaxed">...</p>
       </div>
 
     </main>
 
-    <footer class="flex items-center justify-center gap-3 text-xs text-[#8C827A] dark:text-[#6E645C] mt-16 mb-6 font-semibold uppercase tracking-widest">
-      <span>Създадено с внимание, химия и финанси 🤍</span>
+    <!-- FOOTER -->
+    <footer class="flex items-center justify-center gap-3 text-xs text-[#8C827A] dark:text-[#6E645C] mt-16 mb-6 font-bold uppercase tracking-widest">
+      <span>Създадено с химия и финанси 🤍</span>
       <button onclick="openAdminModal()" class="p-2 hover:text-[#C86D51] transition" title="Редакция"><i data-lucide="lock" class="w-3.5 h-3.5"></i></button>
     </footer>
   </div>
 
   <!-- Admin Modal -->
   <div id="admin-modal" class="fixed inset-0 z-50 bg-[#1A1715]/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="glass-card rounded-[2.5rem] max-w-lg w-full p-8 shadow-2xl relative text-[#3A3532] dark:text-[#E8E3DE]">
+    <div class="glass-card rounded-[2rem] max-w-lg w-full p-8 shadow-2xl relative text-[#3A3532] dark:text-[#E8E3DE]">
       <div class="flex justify-between items-center mb-6">
         <h3 class="font-bold text-xl font-serif-title">Редакторски панел</h3>
         <button onclick="closeAdminModal()" class="p-2 bg-black/5 dark:bg-white/5 rounded-full hover:bg-rose-500/20 transition"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
       
       <div id="admin-pin-screen" class="space-y-5">
-        <input type="password" id="admin-pin-input" placeholder="Въведи ПИН (1234)..." class="w-full px-5 py-3.5 rounded-2xl sub-box text-sm text-[#3A3532] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C86D51] font-bold tracking-widest text-center" />
-        <button onclick="checkAdminPin()" class="w-full py-3.5 bg-[#C86D51] text-white rounded-2xl text-xs font-bold uppercase tracking-wider">Отключи</button>
+        <input type="password" id="admin-pin-input" placeholder="ПИН (1234)" class="w-full px-5 py-4 rounded-2xl sub-box text-sm text-[#3A3532] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C86D51] font-bold tracking-widest text-center" />
+        <button onclick="checkAdminPin()" class="w-full py-4 bg-[#C86D51] text-white rounded-2xl text-xs font-bold uppercase tracking-wider shadow-md">Отключи</button>
       </div>
 
-      <div id="admin-form-screen" class="hidden space-y-4 text-sm font-medium">
-        <label class="block text-[#8C827A]">Късметче / Катализатор</label>
+      <div id="admin-form-screen" class="hidden space-y-4 text-sm font-semibold">
+        <label class="block text-[#8C827A] uppercase tracking-wider text-[10px]">Късметче / Катализатор</label>
         <textarea id="edit-fortune" rows="3" class="w-full p-4 sub-box rounded-2xl text-[#3A3532] dark:text-white focus:outline-none"></textarea>
         
-        <label class="block text-[#8C827A] mt-2">Лично съобщение</label>
+        <label class="block text-[#8C827A] mt-2 uppercase tracking-wider text-[10px]">Лично съобщение</label>
         <textarea id="edit-secret-note" rows="3" class="w-full p-4 sub-box rounded-2xl text-[#3A3532] dark:text-white focus:outline-none"></textarea>
         
-        <button onclick="saveAdminChanges()" class="w-full py-3.5 bg-[#4A5D4E] text-white rounded-2xl font-bold uppercase tracking-wider mt-4">Запази промените</button>
+        <button onclick="saveAdminChanges()" class="w-full py-4 bg-[#4A5D4E] hover:bg-[#3A4D3E] text-white rounded-2xl font-bold uppercase tracking-wider mt-4 shadow-md transition">Запази промените</button>
       </div>
     </div>
   </div>
 
   <script>
+    // 1. Тема и иконка
+    function renderThemeIcon() {
+      const isDark = document.getElementById('html-root').classList.contains('dark');
+      const iconEl = document.getElementById('theme-icon');
+      if(iconEl) {
+        iconEl.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+        iconEl.className = isDark ? 'w-5 h-5 text-amber-300' : 'w-5 h-5 text-[#C86D51]';
+        lucide.createIcons();
+      }
+    }
+
     function setTheme(isDark) {
       const root = document.getElementById('html-root');
       if (isDark) { root.classList.add('dark'); root.classList.remove('light'); localStorage.setItem('theme', 'dark'); }
       else { root.classList.remove('dark'); root.classList.add('light'); localStorage.setItem('theme', 'light'); }
+      renderThemeIcon();
     }
-    function toggleTheme() { setTheme(!document.getElementById('html-root'].classList.contains('dark')); }
+
+    function toggleTheme() { setTheme(!document.getElementById('html-root').classList.contains('dark')); }
+
     (function() {
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) setTheme(true);
       else setTheme(false);
     })();
 
-    // Пресмятане на деня от годината
+    // 2. Пресмятане на деня от годината
     const now = new Date();
     const startOfYear = new Date(now.getFullYear(), 0, 0);
-    const dayOfYear = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24));
+    const diffTime = now - startOfYear + (startOfYear.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
+    const dayOfYear = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     const DAILY_KEY = `daily_override_${now.getFullYear()}_${dayOfYear}`;
 
+    // 3. Здрав "Авариен" обект с видричките
     let activeDay = { 
+      day: dayOfYear,
       fortune: "Днес си вземи голямото кафе, пусни си хубава музика и си дай право на спокойствие. Всичко важно си намира пътя.", 
       fact: "Морските видри спят хванати за лапички, за да не ги раздели морското течение.", 
-      actSolo: "Направи си чаша любим чай или кафе, остави телефона за 20 минути и прочети глава от хубава книга.", 
-      actTogether: "Да си поръчаме нещо вкусно за вкъщи, да си налеем по чаша хубаво вино и да си пуснем любим филм.", 
+      actSolo: "Направи си чаша любима напитка, остави телефона за 20 минути и се наслади на тишината.", 
+      actTogether: "Да си поръчаме нещо вкусно за вкъщи и да си пуснем хубав филм.", 
       secretNote: "Само да ти напомня, че се справяш страхотно с всичко напоследък и много се радвам, че те има. Усмихни се! 🤍", 
       songTitle: "Sunset Lover", 
       songArtist: "Petit Biscuit", 
@@ -262,27 +292,29 @@
       animalCaption: "Малки видрички за разкош 🦦" 
     };
 
+    // 4. Основна функция за рисуване
     function renderApp() {
-      document.getElementById('day-number-badge').innerText = `Ден ${dayOfYear} от 365`;
+      // Номер на деня - ВИНАГИ РАБОТИ
+      document.getElementById('day-number-badge').innerText = `Ден ${dayOfYear}`;
       
-      // Брояч за пътуването (17 септември)
-      const currentYear = now.getFullYear();
-      let tripTarget = new Date(`${currentYear}-09-17T00:00:00`);
-      if (now > tripTarget) {
-        tripTarget = new Date(`${currentYear + 1}-09-17T00:00:00`);
-      }
-      const diffDays = Math.ceil((tripTarget - now) / (1000 * 60 * 60 * 24));
+      // Брояч за пътуването (17 септември 2026) - СИГУРЕН МЕТОД
+      const targetDate = new Date(2026, 8, 17); // 8 означава Септември (брои се от 0)
+      const diffDays = Math.ceil((targetDate - now) / (1000 * 60 * 60 * 24));
       const countdownElem = document.getElementById('countdown-text');
+      
       if (diffDays > 0) {
         countdownElem.innerText = `До следващото ни пътуване остават: ${diffDays} дни (17 септември)`;
       } else {
-        countdownElem.innerText = `Днес е 17 септември — време е за пътуване! ✈️✨`;
+        countdownElem.innerText = `Пътуването започна! Наслади се на всеки миг 🤍`;
       }
 
+      // Текстове
       document.getElementById('fortune-text').innerText = `„${activeDay.fortune}“`;
       document.getElementById('fact-text').innerText = activeDay.fact;
-      document.getElementById('activity-content').innerText = activeDay.actSolo;
+      document.getElementById('activity-content').innerText = activeDay.actSolo; // по подразбиране
       document.getElementById('secret-message-text').innerText = activeDay.secretNote;
+      
+      // Снимка и Музика
       document.getElementById('animal-img').src = activeDay.animalImg;
       document.getElementById('animal-caption').innerText = activeDay.animalCaption;
       document.getElementById('song-title').innerText = activeDay.songTitle;
@@ -290,13 +322,18 @@
       document.getElementById('song-mood').innerText = activeDay.songMood;
       document.getElementById('song-link').href = activeDay.songUrl;
 
+      // Камбанка
       if (localStorage.getItem('subscribed_notifications') === 'true') {
-        document.getElementById('notify-btn-text').innerText = '✓ Абонирана си';
+        document.getElementById('notify-btn-text').innerText = 'Абонирана си';
       }
+      
       lucide.createIcons();
+      renderThemeIcon(); // Гарантираме, че иконата е правилна
     }
 
+    // 5. Зареждане от data.json
     async function load365Database() {
+      // Рисуваме резервните видрички веднага
       renderApp(); 
 
       try {
@@ -304,27 +341,31 @@
         if (response.ok) {
           const database = await response.json();
           if (Array.isArray(database) && database.length > 0) {
-            const foundDay = database.find(item => item.day === dayOfYear);
-            const fallbackIndex = (dayOfYear - 1) % database.length;
-            const dbData = foundDay || database[fallbackIndex];
             
-            if (dbData) {
-              activeDay = { ...activeDay, ...dbData };
+            // Намираме точния ден (циклично завъртане ако са минали 100 дни)
+            // Формула: (244 - 1) % 100 = 43. Елемент 43 има "day": 44
+            const searchDay = ((dayOfYear - 1) % database.length) + 1; 
+            const foundDay = database.find(item => item.day === searchDay);
+            
+            if (foundDay) {
+              activeDay = { ...activeDay, ...foundDay };
             }
           }
         }
       } catch (e) {
-        console.log("Ползват се вградените данни");
+        console.log("Локален режим: Файлът data.json е блокиран, ползват се вградените данни.");
       }
 
+      // Проверка за админ редакции
       const savedOverride = localStorage.getItem(DAILY_KEY);
       if (savedOverride) {
         try { activeDay = { ...activeDay, ...JSON.parse(savedOverride) }; } catch(e) {}
       }
 
-      renderApp();
+      renderApp(); // Прерисуваме с новите данни
     }
 
+    // 6. Бутони Рецепта (С перфектен контраст)
     function setActivityTab(mode) {
       const content = document.getElementById('activity-content');
       const soloBtn = document.getElementById('act-solo-btn');
@@ -332,19 +373,20 @@
       
       if (mode === 'solo') {
         content.innerText = activeDay.actSolo;
-        soloBtn.className = 'px-4 py-1.5 rounded-xl bg-white dark:bg-[#1A1715] text-[#3A3532] dark:text-[#F8F5F1] shadow-sm transition font-bold';
-        togBtn.className = 'px-4 py-1.5 rounded-xl text-[#8C827A] dark:text-[#9E958B] transition font-medium';
+        soloBtn.className = 'px-5 py-2 rounded-xl bg-white dark:bg-[#1A1715] text-[#3A3532] dark:text-[#F8F5F1] shadow-md transition duration-300 font-bold';
+        togBtn.className = 'px-5 py-2 rounded-xl text-[#6C655F] dark:text-[#A89F95] transition duration-300 font-medium hover:text-[#3A3532] dark:hover:text-white';
       } else {
         content.innerText = activeDay.actTogether;
-        togBtn.className = 'px-4 py-1.5 rounded-xl bg-white dark:bg-[#1A1916] text-[#3A3532] dark:text-[#F8F5F1] shadow-sm transition font-bold';
-        soloBtn.className = 'px-4 py-1.5 rounded-xl text-[#8C827A] dark:text-[#9E958B] transition font-medium';
+        togBtn.className = 'px-5 py-2 rounded-xl bg-white dark:bg-[#1A1715] text-[#3A3532] dark:text-[#F8F5F1] shadow-md transition duration-300 font-bold';
+        soloBtn.className = 'px-5 py-2 rounded-xl text-[#6C655F] dark:text-[#A89F95] transition duration-300 font-medium hover:text-[#3A3532] dark:hover:text-white';
       }
     }
 
+    // 7. Скрито съобщение
     function toggleSecretNote() {
       const box = document.getElementById('secret-note-box');
       box.classList.toggle('hidden');
-      document.getElementById('secret-btn-text').innerText = box.classList.contains('hidden') ? 'Отвори съобщението 💌' : 'Скрий съобщението 🤍';
+      document.getElementById('secret-btn-text').innerText = box.classList.contains('hidden') ? 'Отвори 💌' : 'Скрий 🤍';
     }
 
     function toggleNotificationSubscription() {
@@ -352,11 +394,12 @@
       Notification.requestPermission().then(p => {
         if (p === 'granted') {
           localStorage.setItem('subscribed_notifications', 'true');
-          document.getElementById('notify-btn-text').innerText = '✓ Абонирана си';
+          document.getElementById('notify-btn-text').innerText = 'Абонирана си';
         }
       });
     }
 
+    // 8. Админ панел
     function openAdminModal() { document.getElementById('admin-modal').classList.remove('hidden'); document.getElementById('admin-modal').classList.add('flex'); }
     function closeAdminModal() { document.getElementById('admin-modal').classList.add('hidden'); document.getElementById('admin-modal').classList.remove('flex'); }
     function checkAdminPin() {
